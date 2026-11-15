@@ -1,11 +1,7 @@
 /*
  * Tokeni iz dizajn sistema „Responsible Hedonist“ (v7).
  * Okvir je premium i neutralan, boja dolazi samo kroz zvezdice i potpise.
- *
- * Tema: bez izbora prati podešavanje uređaja. Dugme u zaglavlju postavlja
- * data-theme="light" ili "dark" na <html> i pamti izbor.
- * Tamne vrednosti stoje dvaput (za data-theme i za podešavanje uređaja),
- * pa ih uvek menjaj na oba mesta.
+ * Sajt ima samo svetlu temu.
  */
 :root {
   color-scheme: light;
@@ -37,13 +33,6 @@
 
   --shadow-float: 0 16px 40px -12px #23232129;
 
-  /* Razlike između tema koje nisu same boje */
-  --hl-fill: transparent;          /* marker: u svetloj traka ispod reči, u tamnoj pun */
-  --dark-edge: transparent;        /* tamni blokovi u tamnoj temi dobijaju liniju */
-  --logo-tile: transparent;        /* logo u tamnoj temi stoji na krem pločici */
-  --theme-sun: block;
-  --theme-moon: none;
-
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -68,62 +57,6 @@
   --section-pad: var(--space-32);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Tamna tema, izabrana dugmetom */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #161618;
-  --paper-raised: #1f1f22;
-  --stone: #111113;
-  --line: #2e2e32;
-  --line-strong: #76757a;
-  --ink: #f2f1ec;
-  --ink-hover: #ffffff;
-  --ink-muted: #a9a8a2;
-  --on-ink: #161618;
-  --blue: #9aa6ff;
-  --red: #ff7a66;
-  --lime-tint: #2c2f1a;
-  --lavender-tint: #25243f;
-  --sky-tint: #1b2738;
-  --night: #232326;
-  --danger: #ff8a80;
-  --shadow-float: 0 16px 40px -12px #000000b3;
-  --hl-fill: var(--lime);
-  --dark-edge: var(--line);
-  --logo-tile: var(--cream);
-  --theme-sun: none;
-  --theme-moon: block;
-}
-
-/* Tamna tema po podešavanju uređaja, dok nema ručnog izbora */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --paper: #161618;
-    --paper-raised: #1f1f22;
-    --stone: #111113;
-    --line: #2e2e32;
-    --line-strong: #76757a;
-    --ink: #f2f1ec;
-    --ink-hover: #ffffff;
-    --ink-muted: #a9a8a2;
-    --on-ink: #161618;
-    --blue: #9aa6ff;
-    --red: #ff7a66;
-    --lime-tint: #2c2f1a;
-    --lavender-tint: #25243f;
-    --sky-tint: #1b2738;
-    --night: #232326;
-    --danger: #ff8a80;
-    --shadow-float: 0 16px 40px -12px #000000b3;
-    --hl-fill: var(--lime);
-    --dark-edge: var(--line);
-    --logo-tile: var(--cream);
-    --theme-sun: none;
-    --theme-moon: block;
-  }
 }
 
 @media (max-width: 1024px) {

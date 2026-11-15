@@ -12,7 +12,7 @@ const portrait = Object.values(found)[0]?.default;
 <div class="rh-portrait">
   <figure class="rh-portrait__media">
     {portrait ? (
-      <Image src={portrait} alt={`${person.name}, psiholog`} width={880} height={1100} widths={[440, 660, 880]} sizes="(min-width: 900px) 440px, 90vw" loading={eager ? 'eager' : 'lazy'} />
+      <Image src={portrait} alt={`${person.name}, ${person.title}`} width={880} height={1100} widths={[440, 660, 880]} sizes="(min-width: 900px) 440px, 90vw" loading={eager ? 'eager' : 'lazy'} />
     ) : (
       <div class="rh-portrait__placeholder"><Asterisk tone="lavender" size={40} /><span class="small">Ovde ide Jelenin portret, 4:5</span></div>
     )}

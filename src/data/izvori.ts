@@ -43,8 +43,13 @@ export const izvori = {
 
 export type SourceId = keyof typeof izvori;
 
-export function getSources(ids: readonly string[]): Source[] {
-  return ids.map((id) => {
+/**
+ * Prazna lista kad tema nema izvore. `undefined` se prihvata zato što Astro
+ * u kešu (.astro/data-store.json) zna da zadrži unose parsirane pre nego što
+ * je polje `sources` dodato u šemu, pa dev server ne bi smeo da padne na tome.
+ */
+export function getSources(ids: readonly string[] | undefined = []): Source[] {
+  return (ids ?? []).map((id) => {
     const s = (izvori as Record<string, Source>)[id];
     if (!s) throw new Error(`Nepoznat izvor „${id}“. Dodaj ga u src/data/izvori.ts.`);
     return s;

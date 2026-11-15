@@ -2,9 +2,9 @@
 title: "Perfekcionizam: online REBT terapija na srpskom"
 name: Perfekcionizam
 h1: "Perfekcionizam: kad ni „odlično“ nije dovoljno"
-description: "Online REBT terapija za perfekcionizam, na srpskom. Zašto ni odličan rezultat ne donosi mir i kako da tvoja vrednost prestane da zavisi od učinka."
+description: "REBT terapija za perfekcionizam, uživo i online. Zašto ni odličan rezultat ne donosi mir i kako da tvoja vrednost prestane da zavisi od učinka."
 hook: "Posao je gotov, ali nije dovoljno dobar. Nikad nije."
-answer: "Perfekcionizam nije visok standard, nego standard bez prava na grešku, uz osećaj da vrediš samo kad ga ispuniš. REBT ga vidi kao zahtev („moram sve da uradim savršeno“) i kao ocenjivanje sebe po učinku. Na online terapiji na srpskom radimo na tome da standard ostane, a da tvoja vrednost prestane da zavisi od njega."
+answer: "Perfekcionizam nije visok standard, nego standard bez prava na grešku, uz osećaj da vrediš samo kad ga ispuniš. REBT ga vidi kao zahtev („moram sve da uradim savršeno“) i kao ocenjivanje sebe po učinku. Na terapiji, uživo ili online, radimo na tome da standard ostane, a da tvoja vrednost prestane da zavisi od njega."
 order: 2
 pubDate: 2026-11-15
 sources: [egan-2011, david-2018]

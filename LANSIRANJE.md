@@ -7,15 +7,11 @@ Pregled urađen 15. novembra 2026. Svaka stavka ima jedan od četiri statusa:
 - **Posle objave**: radi se van koda, kad sajt bude na domenu.
 - **Ne radimo**: namerno izostavljeno, sa razlogom.
 
-## Šta blokira objavu
+## Šta je ostalo pre objave
 
-1. **Cena.** Na sajtu piše „na upit“. Plan kaže da se cena vidi pre zakazivanja; bez nje ljudi odustaju.
-2. **Zakazivanje.** Treba link ka kalendaru (Cal.com ili Calendly) i servis za kontakt formu. Dok ih nema, sajt nudi samo email i poruku na Instagramu.
-3. **Titula i edukacija.** Trenutno stoji ono što piše u Instagram biografiji („Master psiholog“, „RE&CBT psihoterapeut na edukaciji“). Fale naziv edukacije, udruženje i godine.
-4. **Uživo ili samo online.** Instagram kaže „uživo & online“, plan sajta samo online. Od toga zavisi ceo lokalni SEO (vidi odeljak 5).
-5. **Portret.** Bez lica je teško steći poverenje u terapeuta. Dodaj `src/assets/portrait.jpg` (4:5).
-6. **Domen i email na domenu.**
-7. **Tekstovi.** Svi su nacrti; Jelena ih prepravlja u svom glasu. Uslove i privatnost gleda pravnik ili knjigovođa.
+1. **Preusmerenje** `responsible-hedonist.com` → `jelenamarjanovic.net` (301, kod registra ili u Cloudflare-u).
+2. **Potvrda:** formulacija statusa u edukaciji (`pending` u `practice.ts`).
+3. **Tekstovi** su nacrti; Jelena ih prepravlja u svom glasu.
 
 ## 1. Tehnički SEO
 
@@ -26,7 +22,7 @@ Pregled urađen 15. novembra 2026. Svaka stavka ima jedan od četiri statusa:
 | Robots.txt | Gotovo | Pušta sve i pokazuje na sitemap |
 | Canonical | Gotovo | Na svakoj stranici, sa kosom crtom na kraju |
 | Title i description | Gotovo | 16 stranica, svi jedinstveni; build puca ako opis teme pređe 160 znakova |
-| Open Graph | Gotovo | Naslov, opis, slika 1200×630, `og:locale`; jedna slika za ceo sajt |
+| Open Graph | Gotovo | Naslov, opis, slika 1200×630 sa portretom i logom (`og.jpg`), `og:locale`; jedna slika za ceo sajt |
 | HTTPS | Posle objave | Cloudflare ga daje sam; HSTS je već u `public/_headers` |
 | Mobile-first | Gotovo | Provereno na 360 i 375 px; dugme „Zakaži“ ostaje na vrhu dok se skroluje |
 | Core Web Vitals | Gotovo | Lokalno: LCP 1,2–1,7 s, CLS 0; ponovi merenje na pravom domenu (PageSpeed Insights) |
@@ -40,8 +36,8 @@ Pregled urađen 15. novembra 2026. Svaka stavka ima jedan od četiri statusa:
 | Stavka | Status | Napomena |
 | --- | --- | --- |
 | Keyword research | Posle objave | Ciljne grupe upita su u planu sajta; obim pretrage treba proveriti u Google Keyword Planneru, a posle 4–6 nedelja u Search Console |
-| Search intent | Gotovo | Svaka tema počinje odgovorom; posebna stranica za ljude iz inostranstva; „Kako radim“ pokriva i upite za KBT |
-| Lokalne ključne reči | Čeka podatke | Zavisi od odluke uživo ili samo online |
+| Search intent | Gotovo | Svaka tema počinje odgovorom; opšta tema „Svakodnevica“ za upite tipa stres, odnosi, odluke; posebna stranica za ljude iz inostranstva; „Kako radim“ pokriva i upite za KBT |
+| Lokalne ključne reči | Gotovo | „Psiholog u Beogradu i online“ u naslovu početne; Beograd i Palilula u tekstu, podnožju i JSON-LD-u |
 | Title, H1, H2 | Gotovo | Jedan H1 po stranici, bez preskakanja nivoa |
 | Interno povezivanje | Gotovo | 237 internih linkova, nijedan pokidan; teme ↔ pojmovi ↔ tekstovi ↔ zakazivanje |
 | Alt tekstovi | Gotovo | Dekorativne slike imaju prazan alt, portret ima opisni |
@@ -62,7 +58,7 @@ Pregled urađen 15. novembra 2026. Svaka stavka ima jedan od četiri statusa:
 | Article | Gotovo | `BlogPosting` za tekstove; teme imaju autora, datume i `citation` |
 | Organization | Gotovo | Brend „Responsible Hedonist“ vezan za Jelenu (`founder`) |
 | FAQ | Gotovo | Vidljiva pitanja i `FAQPage` na 7 stranica |
-| Kvalifikacije | Čeka podatke | Vidi „Šta blokira objavu“, tačka 3 |
+| Kvalifikacije | Gotovo | Master psiholog (2021), RE&CBT edukacija kod UKBTS, na O meni i u JSON-LD-u |
 | Stručni izvori | Gotovo | Odeljak „Izvori“ na temama, Kako radim i O meni; DOI brojevi provereni u Crossref-u. Jelena potvrđuje listu |
 | Konzistentni podaci na internetu | Posle objave | Isto ime, titula, opis i link na Instagramu, u direktorijumima i na sajtu udruženja |
 | llms.txt | Ne radimo | Nema dokaza da pomaže; može se dodati za pet minuta ako se to promeni |
@@ -71,25 +67,25 @@ Pregled urađen 15. novembra 2026. Svaka stavka ima jedan od četiri statusa:
 
 | Stavka | Status | Napomena |
 | --- | --- | --- |
-| Kvalifikacije, obrazovanje, sertifikati | Čeka podatke | Prikazuju se na početnoj, O meni i u potpisu svakog teksta |
-| Članstva | Čeka podatke | `person.memberships` |
+| Kvalifikacije, obrazovanje, sertifikati | Gotovo | Na početnoj, O meni i u potpisu svakog teksta; status u edukaciji čeka potvrdu formulacije |
+| Članstva | Gotovo | Edukacija kod Udruženja za kognitivne i bihejvioralne terapije Srbije, sa linkom na ukbt.org.rs |
 | Terapijski pravac | Gotovo | REBT objašnjen na početnoj, Kako radim i u rečniku |
-| Biografija | Čeka podatke | O meni postoji; fale 3–4 rečenice u Jeleninom glasu i portret |
+| Biografija | Čeka podatke | O meni postoji, sa portretom; fale 3–4 rečenice u Jeleninom glasu |
 | Reference | Gotovo | Vidi odeljak 3 |
-| Privacy Policy | Gotovo | `/privatnost/`, nacrt; pominje i pamćenje izabrane teme |
+| Privacy Policy | Gotovo | `/privatnost/` „Poverljivost i privatnost“: kratko, samo ono što zanima osobu koja se javlja; nacrt za pravnika |
 | Cookie Policy | Ne radimo | Sajt nema kolačiće, pa ni baner |
 | Terms of Service | Gotovo | `/uslovi/`, nacrt: zakazivanje, plaćanje, otkazivanje, tehnički uslovi, šta terapija nije |
-| HTTPS i bezbedan kontakt | Posle objave | Strog CSP je spreman; forma šalje samo ime, email i opciono rečenicu |
-| Poverljivost | Gotovo | Na početnoj (FAQ), u uslovima (sa granicama) i u privatnosti |
+| HTTPS i bezbedan kontakt | Posle objave | Strog CSP je spreman; sajt nema formu i ne prikuplja podatke, kontakt ide direktno emailom ili telefonom |
+| Poverljivost | Gotovo | Na početnoj (FAQ) i na `/privatnost/` (sa granicama); uslovi i zakazivanje linkuju tamo |
 
 ## 5. Lokalni SEO
 
-Sve u ovom odeljku zavisi od jedne odluke: **da li Jelena radi i uživo**. Praksa koja je samo online ne može da ima Google Business Profile. Ako radi uživo u Beogradu, to je najjača lokalna poluga i vredi je otvoriti.
+Jelena radi i uživo, pa lokalni SEO sada ima smisla. **Google Business Profile je najjača lokalna poluga** i otvara se čim postoji adresa ordinacije: daje mapu, telefon i pojavljivanje u pretrazi „psiholog u blizini“. Adresa na sajtu, u profilu i u direktorijumima mora biti napisana isto.
 
 | Stavka | Status | Napomena |
 | --- | --- | --- |
-| Google Business Profile, Bing Places, Maps | Čeka podatke | Samo ako postoji ordinacija |
-| NAP podaci | Čeka podatke | Bez adrese i telefona nema šta da se usklađuje; ime i email su dosledni |
+| Google Business Profile, Bing Places, Maps | Posle objave | Na sajtu stoji samo „Beograd, Palilula“. Za verifikaciju profila Google traži ulicu i broj, ali adresa posle može da se sakrije |
+| NAP podaci | Gotovo | Ime, telefon (+381 61 680 1011), email (responsiblehedonistpsychology@gmail.com) i „Beograd, Palilula“ isto svuda na sajtu; isto upisati u profil i direktorijume |
 | Direktorijumi terapeuta | Posle objave | TherapyRoute, It's Complicated, Selfnest; u pretrazi za „REBT online na srpskom“ baš oni drže vrh |
 | Lokalni backlinkovi | Posle objave | Sajt edukacije i udruženja, fakultet, studentske organizacije |
 | Recenzije | Ne radimo | Etika psihologa ne dozvoljava traženje utisaka od klijenata |
@@ -103,7 +99,7 @@ Sve u ovom odeljku zavisi od jedne odluke: **da li Jelena radi i uživo**. Praks
 | Analitika bez kolačića | Posle objave | Cloudflare Web Analytics, jedan klik; CSP je već dozvoljava |
 | Search Console | Posle objave | |
 | PageSpeed Insights | Posle objave | Lokalni Lighthouse: 94–100 performanse, 100 pristupačnost, best practices i SEO |
-| Praćenje konverzija | Gotovo | Sva dugmad vode na `/zakazivanje/` (poseta se broji), forma pita „Odakle znaš za mene?“, a posle slanja ide `/hvala/` |
+| Praćenje konverzija | Posle objave | Sva dugmad vode na `/zakazivanje/`, pa analitika broji posete te stranice. Pošto nema forme, „Odakle znaš za mene?“ Jelena pita na prvom razgovoru i beleži |
 | Organske ključne reči | Posle objave | Search Console, mesečno |
 | AI referral saobraćaj | Posle objave | Cloudflare pokazuje izvore (chatgpt.com, perplexity.ai); u formi postoji opcija „AI asistent“ |
 | GDPR/cookie consent | Ne radimo | Nema kolačića ni praćenja, pa pristanak nije potreban |
@@ -114,7 +110,7 @@ Sve u ovom odeljku zavisi od jedne odluke: **da li Jelena radi i uživo**. Praks
 | --- | --- | --- |
 | Backlinkovi, gostujući tekstovi | Posle objave | Plan sajta, odeljak „Van sajta“ |
 | Platforme terapeuta | Posle objave | Vidi odeljak 5 |
-| LinkedIn i drugi profili | Čeka podatke | Upiši u `person.profiles`; idu u podnožje, O meni i `sameAs` |
+| LinkedIn i drugi profili | Ne radimo | Odluka: za sada samo Instagram |
 | Povezivanje profila sa sajtom | Posle objave | Link u Instagram biju na sajt, postovi na konkretan tekst |
 | Redovan edukativni sadržaj | Posle objave | „Pitanja“ iz Instagram serija |
 | Dosledno ime i kvalifikacije | Gotovo | Na sajtu sve dolazi iz jednog fajla (`practice.ts`) |
@@ -124,12 +120,13 @@ Sve u ovom odeljku zavisi od jedne odluke: **da li Jelena radi i uživo**. Praks
 | Stavka | Status | Napomena |
 | --- | --- | --- |
 | Jasni CTA | Gotovo | Jedno glavno dugme po ekranu; „Zakaži“ je uvek u zaglavlju, i na telefonu |
-| Kontakt forma | Čeka podatke | Napravljena (ime, email, „Odakle znaš za mene?“, opciono rečenica); fali adresa servisa u `practice.form` |
-| Online zakazivanje | Čeka podatke | Kalendar se ugrađuje na `/zakazivanje/` čim se upiše `practice.bookingUrl` |
-| Vidljivi kontakt | Gotovo | Email u podnožju i baneru, poruka na Instagramu na stranici za zakazivanje |
-| Cena i trajanje | Čeka podatke | Trajanje piše svuda; cena je „na upit“ |
+| Kontakt forma | Ne radimo | Odluka: kontakt ide preko emaila i telefona, bez forme |
+| Online zakazivanje | Ne radimo | Odluka: bez kalendara; termin se dogovara porukom ili pozivom |
+| Kontakt | Gotovo | Email i telefon sa dugmetom za kopiranje; poziv, SMS, Viber, WhatsApp i Instagram jednim dodirom |
+| Vidljivi kontakt | Gotovo | Email u podnožju i baneru; telefon se dodaje na ista mesta čim se upiše |
+| Cena i trajanje | Gotovo | Trajanje piše svuda. Cena je na upit (odluka): tako piše samo u tabeli uslova na `/kako-radim/`; kad se upiše u `practice.price`, vidi se tamo i na `/uslovi/` |
 | Proces prve seanse | Gotovo | Tri koraka na početnoj i odeljak „Šta te čeka kad se prvi put čujemo“ |
-| Mobile-friendly kontakt | Gotovo | Polja od 52 px, brojevi telefona se pozivaju dodirom |
+| Mobile-friendly kontakt | Gotovo | Broj se poziva dodirom, Viber i WhatsApp se otvaraju direktno, dugmad su visoka 44 px |
 | Testiranje CTA formulacija | Posle objave | Tek kad bude dovoljno poseta; pre toga nema šta da se meri |
 
 ## Prvih sedam dana posle objave

@@ -5,8 +5,8 @@ import Eyebrow from './Eyebrow.astro';
 import { person, practice } from '../data/practice';
 interface Props { title?: string }
 const { title = 'Prvi korak može da bude mali.' } = Astro.props;
-const intro = practice.introCall.offered
-  ? `Uvodni razgovor traje ${practice.introCall.minutes} minuta${practice.introCall.free ? ' i besplatan je' : ''}. Vidimo da li ti ovakav rad odgovara, bez obaveze da nastaviš.`
+const intro = practice.firstSessionFree
+  ? 'Prva seansa je besplatna. Upoznamo se i vidimo da li ti ovakav rad odgovara, bez obaveze da nastaviš.'
   : 'Na prvom razgovoru vidimo šta te muči i da li ti ovakav rad odgovara, bez obaveze da nastaviš.';
 ---
 <section class="section" aria-labelledby="poziv-naslov">
@@ -20,7 +20,7 @@ const intro = practice.introCall.offered
       <div class="rh-banner__side">
         <p>{intro}</p>
         <Button href="/zakazivanje/" variant="cream" star>Zakaži prvi razgovor</Button>
-        <p class="small">Ili piši na <a class="rh-banner__mail" href={`mailto:${person.email}`}>{person.email}</a>. {practice.responseTime}</p>
+        <p class="small">Ili piši na <a class="rh-banner__mail" href={`mailto:${person.email}`}>{person.email}</a>{person.phone && <> ili pozovi <a class="rh-banner__mail" href={`tel:${person.phone.e164}`}>{person.phone.display.replace(/ /g, '\u00a0')}</a></>}. {practice.responseTime}</p>
       </div>
     </div>
   </div>

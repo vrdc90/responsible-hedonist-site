@@ -2,9 +2,9 @@
 title: "Ljutnja i bes: online REBT terapija na srpskom"
 name: Ljutnja i bes
 h1: "Ljutnja: kad planeš zbog sitnice"
-description: "Online REBT terapija za ljutnju i bes, na srpskom. Šta stoji iza toga što planeš zbog sitnice i kako da ljutnja ostane signal, a ne eksplozija."
+description: "REBT terapija za ljutnju i bes, uživo i online. Šta stoji iza toga što planeš zbog sitnice i kako da ljutnja ostane signal, a ne eksplozija."
 hook: "Planeš zbog sitnice, a posle se ljutiš i na sebe."
-answer: "Ljutnja je normalna emocija, ali bes koji izbija zbog sitnica obično ima korene u zahtevima prema drugima: „ljudi moraju da se ponašaju kako treba“. REBT pravi razliku između zdrave ljutnje, koja ti pomaže da postaviš granicu, i besa koji ti šteti. Na online terapiji na srpskom radimo na zahtevima koji ga pale."
+answer: "Ljutnja je normalna emocija, ali bes koji izbija zbog sitnica obično ima korene u zahtevima prema drugima: „ljudi moraju da se ponašaju kako treba“. REBT pravi razliku između zdrave ljutnje, koja ti pomaže da postaviš granicu, i besa koji ti šteti. Na terapiji, uživo ili online, radimo na zahtevima koji ga pale."
 order: 4
 pubDate: 2026-11-15
 draft: true

@@ -1,12 +1,12 @@
 ---
-import Asterisk from './Asterisk.astro';
+import Avatar from './Avatar.astro';
 import { person } from '../data/practice';
 interface Props { published?: Date; modified?: Date }
 const { published, modified } = Astro.props;
 const fmt = (d: Date) => d.toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <aside class="rh-author" aria-label="O autorki">
-  <span class="rh-author__mark"><Asterisk tone="blue" size={22} /></span>
+  <Avatar size={56} />
   <div>
     <p class="rh-author__name">Napisala {person.name}</p>
     <p>{person.credentialsShort}. O radu redovno razgovaram sa supervizorom. <a class="rh-link" href="/o-meni/">Više o meni</a></p>

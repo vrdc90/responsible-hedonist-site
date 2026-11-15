@@ -7,9 +7,12 @@ import Faq from '../components/Faq.astro';
 import BookingBanner from '../components/BookingBanner.astro';
 import Sources from '../components/Sources.astro';
 import { getSources } from '../data/izvori';
-import { practice } from '../data/practice';
+import { practice, priceLabel, formatPhrase, formatChoice, placeLabel } from '../data/practice';
+import { serviceNode } from '../lib/schema';
 
 const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Kako radim', href: '/kako-radim/' }];
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
+const price = priceLabel();
 const sources = getSources(['ellis-1962', 'david-2018', 'fernandez-2021']);
 const faq = [
   { q: 'Šta je REBT?', a: '<p>REBT je racionalno-emotivna bihejvioralna terapija. Razvio ju je psiholog Albert Elis 1950-ih i smatra se prvim oblikom kognitivno-bihejvioralne terapije. Polazi od toga da emocije ne izazivaju same situacije, nego kruta uverenja o njima, i da se ta uverenja mogu promeniti.</p>' },
@@ -20,8 +23,9 @@ const faq = [
 ];
 ---
 <Base
-  title="Kako izgleda REBT terapija online"
-  description="Kako izgleda online REBT terapija na srpskom: ABC model, tok seanse, zadaci između seansi, koliko traje terapija i šta je supervizija. Jednostavnim jezikom."
+  title="Kako izgleda REBT terapija: uslovi, uživo i online"
+  description="Kako izgleda REBT terapija, uživo i online: ABC model, tok seanse, zadaci između seansi, trajanje, plaćanje i otkazivanje. Jednostavnim jezikom."
+  schema={[serviceNode()]}
   crumbs={crumbs}
   faq={faq}
   sources={sources}
@@ -32,7 +36,7 @@ const faq = [
     eyebrow="Kako radim"
     tone="lavender"
     title="Kako izgleda REBT terapija"
-    lead="REBT je racionalno-emotivna bihejvioralna terapija, prvi oblik kognitivno-bihejvioralne terapije (KBT). Konkretna je: tražimo tačnu misao iza onoga što te muči, proveravamo je i menjamo, uz male zadatke između seansi. Radim online, video pozivom, na srpskom."
+    lead={`REBT je racionalno-emotivna bihejvioralna terapija, prvi oblik kognitivno-bihejvioralne terapije (KBT). Konkretna je: tražimo tačnu misao iza onoga što te muči, proveravamo je i menjamo, uz male zadatke između seansi. Radim ${formatPhrase}, na srpskom.`}
   />
 
   <section class="section section--tight" style="padding-top:0">
@@ -81,24 +85,43 @@ const faq = [
           <li><strong>Nova misao.</strong> Formulišemo fleksibilnije uverenje rečima koje zvuče kao ti.</li>
           <li><strong>Zadatak do sledećeg puta.</strong> Mali, izvodljiv i dogovoren zajedno.</li>
         </ol>
-        <h3>Online, a ne „online verzija“</h3>
-        <p>Seanse su video pozivom. {practice.video[0].toUpperCase() + practice.video.slice(1)}. Treba ti mirno mesto, slušalice i stabilan internet. Meta-analiza koja je poredila psihoterapiju preko video poziva sa radom uživo nije našla značajnu razliku u rezultatima, a kognitivno-bihejvioralni pristupi su se pokazali posebno dobro.</p>
+        <h3>Uživo ili online</h3>
+        <p>Biraš ti: seansa {formatChoice}, a možeš i da kombinuješ. Online seanse su video pozivom; {practice.video}. Treba ti mirno mesto, slušalice i stabilan internet. Meta-analiza koja je poredila psihoterapiju preko video poziva sa radom uživo nije našla značajnu razliku u rezultatima, a kognitivno-bihejvioralni pristupi su se pokazali posebno dobro.</p>
         <h3>Koliko traje terapija</h3>
         <p>Zavisi od toga šta te muči i koliko dugo. Često je to nekoliko meseci. Ne obećavam broj seansi ni ishod, jer to niko pošten ne može. Usput proveravamo šta se menja i dogovaramo se da li nastavljamo, proređujemo ili završavamo.</p>
         <h3>Supervizija</h3>
         <p>O svom radu redovno razgovaram sa iskusnim supervizorom, bez podataka po kojima bi neko mogao da te prepozna. To je standard dobre prakse u psihoterapiji i dodatna sigurnost za tebe.</p>
-        <h3>Sa čim ne radim</h3>
-        <p>Online terapija nije za svaku situaciju. Ne radim sa:</p>
-        <ul>
-          {practice.doesNotWorkWith.map((x) => <li>{x}</li>)}
-        </ul>
-        <p>U tim slučajevima je prvi korak psihijatar ili hitna pomoć, a terapija može da dođe posle ili uz to.</p>
         <Sources sources={sources} headingLevel="h3" />
       </div>
     </div>
   </section>
 
-  <section class="section section--stone" aria-labelledby="faq-naslov">
+  <section class="section section--stone" id="uslovi" aria-labelledby="uslovi-naslov" style="scroll-margin-top:var(--header-height)">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="sky">Uslovi</Eyebrow>
+        <h2 id="uslovi-naslov" class="h2">Ukratko: format, trajanje i plaćanje</h2>
+        <p class="muted">Sve pojedinosti su u <a class="rh-link" href="/uslovi/">uslovima saradnje</a>.</p>
+      </div>
+      <div class="editorial__body">
+        <table class="rh-table">
+          <tbody>
+            <tr><th scope="row">Format</th><td>{placeLabel ? `Uživo (${placeLabel}) ili online, video pozivom` : `${cap(formatChoice)} (video poziv)`}</td></tr>
+            <tr><th scope="row">Jezik</th><td>Srpski</td></tr>
+            <tr><th scope="row">Trajanje seanse</th><td>{practice.sessionMinutes} minuta</td></tr>
+            <tr><th scope="row">Cena seanse</th><td>{price ?? 'na upit'}</td></tr>
+            {practice.firstSessionFree && <tr><th scope="row">Prva seansa</th><td>Besplatna, bez obaveze da nastaviš</td></tr>}
+            <tr><th scope="row">Ritam</th><td>{cap(practice.rhythm)}</td></tr>
+            <tr><th scope="row">Plaćanje</th><td>{practice.paymentWhen}</td></tr>
+            <tr><th scope="row">Otkazivanje</th><td>{practice.cancellation}</td></tr>
+            <tr><th scope="row">Radim sa</th><td>{cap(practice.worksWith)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-naslov">
     <div class="container editorial">
       <div class="editorial__head stack">
         <Eyebrow tone="lavender">Česta pitanja</Eyebrow>

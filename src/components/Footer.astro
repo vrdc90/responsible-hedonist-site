@@ -1,17 +1,18 @@
 ---
 import CrisisNote from './CrisisNote.astro';
 import { footerNav } from '../data/nav';
-import { person, site } from '../data/practice';
+import { person, site, formatPhrase, placeLabel } from '../data/practice';
 const year = new Date().getFullYear();
 ---
 <footer class="rh-footer">
   <div class="container">
     <div class="rh-footer__grid">
       <div>
-        <a class="rh-footer__logo" href="/" aria-label={`${site.brand}, početna`}><img src="/logo.svg" alt="" width="140" height="39" loading="lazy" /></a>
-        <p class="rh-footer__who"><strong>{person.name}</strong><br />{person.credentialsShort}<br />Online REBT terapija na srpskom</p>
+        <a class="rh-footer__logo" href="/" aria-label={`${site.brand}, početna`}><img src="/logo.png" alt="" width="140" height="69" loading="lazy" /></a>
+        <p class="rh-footer__who"><strong>{person.name}</strong><br />{person.credentialsShort}<br />REBT terapija {formatPhrase}, na srpskom{placeLabel && <><br />Ordinacija: {placeLabel}</>}</p>
         <p class="rh-footer__contact">
           <a href={`mailto:${person.email}`}>{person.email}</a><br />
+          {person.phone && <><a href={`tel:${person.phone.e164}`}>{person.phone.display.replace(/ /g, '\u00a0')}</a> · poziv, SMS, Viber, WhatsApp<br /></>}
           <a href={person.instagram} rel="me noopener">Instagram {person.instagramHandle}</a>
           {person.profiles.map((p) => <><br /><a href={p.url} rel="me noopener">{p.name}</a></>)}
         </p>

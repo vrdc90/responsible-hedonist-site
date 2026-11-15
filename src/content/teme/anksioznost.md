@@ -2,15 +2,15 @@
 title: Terapija za anksioznost online, na srpskom
 name: Anksioznost
 h1: "Anksioznost: kad je „šta ako“ glasnije od svega"
-description: "Online REBT terapija za anksioznost, na srpskom. Kako izgleda kad „šta ako“ preuzme glavu, šta REBT vidi ispod toga i kako radimo na tome."
+description: "REBT terapija za anksioznost, uživo i online, na srpskom. Kako izgleda kad „šta ako“ preuzme glavu, šta REBT vidi ispod toga i kako radimo na tome."
 hook: "U glavi ti se vrti „šta ako“, i to baš pred spavanje."
-answer: "Anksioznost je strah od nečega što bi moglo da se desi, i traje i kad opasnosti nema. REBT polazi od toga da je ne pravi sama situacija, nego kruti zahtevi u glavi, poput „ne smem da pogrešim“ i „to bi bilo nepodnošljivo“. Na online terapiji na srpskom učimo da te zahteve prepoznaš i zameniš fleksibilnijim mislima, pa „šta ako“ postane tiše."
+answer: "Anksioznost je strah od nečega što bi moglo da se desi, i traje i kad opasnosti nema. REBT polazi od toga da je ne pravi sama situacija, nego kruti zahtevi u glavi, poput „ne smem da pogrešim“ i „to bi bilo nepodnošljivo“. Na terapiji na srpskom, uživo ili online, učimo da te zahteve prepoznaš i zameniš fleksibilnijim mislima, pa „šta ako“ postane tiše."
 order: 1
 pubDate: 2026-11-15
 sources: [carpenter-2018, fernandez-2021, david-2018]
 faq:
   - q: Da li online terapija za anksioznost radi kao terapija uživo?
-    a: "<p>Za većinu ljudi da. Meta-analiza koja je poredila psihoterapiju preko video poziva sa radom uživo nije našla značajnu razliku u rezultatima, a kognitivno-bihejvioralni pristupi, kojima pripada i REBT, pokazali su se posebno dobro. Nekima je čak lakše, jer pričaju iz svog prostora i ne troše vreme na put.</p>"
+    a: "<p>Za većinu ljudi da. Meta-analiza koja je poredila psihoterapiju preko video poziva sa radom uživo nije našla značajnu razliku u rezultatima, a kognitivno-bihejvioralni pristupi, kojima pripada i REBT, pokazali su se posebno dobro. Nekima je čak lakše, jer pričaju iz svog prostora i ne troše vreme na put. Ako ti je draže uživo, i to je opcija.</p>"
   - q: Koliko traje terapija za anksioznost?
     a: "<p>Zavisi od toga šta te muči i koliko dugo. Često je to nekoliko meseci, uz seansu jednom nedeljno, a kasnije ređe. Ne obećavam broj seansi. Usput zajedno proveravamo šta se menja i da li ima smisla da nastavimo.</p>"
   - q: Treba li mi dijagnoza za terapiju?
@@ -50,7 +50,7 @@ Cilj nije da prestaneš da brineš. REBT razlikuje anksioznost od zdrave zabrinu
 3. Gradimo nove, fleksibilnije misli koje zvuče kao ti, a ne kao poster sa motivacionim citatom.
 4. Između seansi dobijaš male zadatke: da zapišeš misli u trenutku kad se jave, ili da probaš nešto što izbegavaš, korak po korak.
 
-Sve se radi online, video pozivom, na srpskom. Seansa traje kao i uživo, a ti biraš mesto na kom ti je mirno.
+Seanse su na srpskom, uživo u ordinaciji ili online, video pozivom. Ako biraš online, biraš i mesto na kom ti je mirno.
 
 ## Kada je dobro uključiti i psihijatra
 

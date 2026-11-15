@@ -2,9 +2,9 @@
 title: "Kako prestati da odlažeš: REBT terapija online"
 name: Odlaganje
 h1: "Odlaganje: kad „sutra“ traje mesecima"
-description: "Online REBT terapija za odlaganje obaveza, na srpskom. Zašto odlaganje nije lenjost, koja uverenja ga hrane i šta konkretno radimo da kreneš."
+description: "REBT terapija za odlaganje obaveza, uživo i online, na srpskom. Zašto odlaganje nije lenjost, koja uverenja ga hrane i šta konkretno radimo da kreneš."
 hook: "Odlažeš, pa se osećaš loše što odlažeš, pa opet odlažeš."
-answer: "Odlaganje retko znači lenjost. Najčešće je način da izbegneš neprijatnost: dosadu, strah od greške ili strah da rezultat neće biti dovoljno dobar. REBT traži uverenje koje stoji iza toga, na primer „ne mogu da podnesem da mi je teško“, i radi na njemu. Radimo online, na srpskom, uz male zadatke između seansi."
+answer: "Odlaganje retko znači lenjost. Najčešće je način da izbegneš neprijatnost: dosadu, strah od greške ili strah da rezultat neće biti dovoljno dobar. REBT traži uverenje koje stoji iza toga, na primer „ne mogu da podnesem da mi je teško“, i radi na njemu. Radimo uživo ili online, na srpskom, uz male zadatke između seansi."
 order: 3
 pubDate: 2026-11-15
 sources: [steel-2007, david-2018]
@@ -14,7 +14,7 @@ faq:
   - q: Zašto ne pomažu aplikacije, planeri i liste?
     a: "<p>Zato što rešavaju organizaciju, a odlaganje je češće problem sa osećanjem. Lista ti kaže šta treba da uradiš, ali ne menja misao „ne mogu sad, nije mi do toga“. Na terapiji radimo baš na toj misli, a alati posle počnu da rade bolje.</p>"
   - q: Šta ako odložim i samu terapiju?
-    a: "<p>Dešava se, i to bez osude. Zato je prvi korak mali: kratka poruka ili termin u kalendaru. Ne moraš ništa da pripremiš.</p>"
+    a: "<p>Dešava se, i to bez osude. Zato je prvi korak mali: kratka poruka ili jedan poziv. Ne moraš ništa da pripremiš.</p>"
 ---
 
 ## Kako to izgleda u svakodnevici

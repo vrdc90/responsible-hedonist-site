@@ -8,6 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "review": "PUBLIC_REVIEW=1 astro build && node scripts/review-file.mjs .review-build pregled/responsible-hedonist-pregled.html",
     "astro": "astro"
   },
   "engines": {

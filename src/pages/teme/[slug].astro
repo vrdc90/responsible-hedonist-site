@@ -10,7 +10,7 @@ import AuthorBox from '../../components/AuthorBox.astro';
 import Sources from '../../components/Sources.astro';
 import BookingBanner from '../../components/BookingBanner.astro';
 import Icon from '../../components/Icon.astro';
-import { person, practice, priceLabel } from '../../data/practice';
+import { person, practice, formatPhrase } from '../../data/practice';
 import { getTopics, getQuestions } from '../../lib/content';
 import { serviceNode } from '../../lib/schema';
 import { getSources } from '../../data/izvori';
@@ -48,6 +48,7 @@ const sources = getSources(d.sources);
   sources={sources}
 >
   <PageHead crumbs={crumbs} eyebrow="Tema" tone="lime" title={d.h1}>
+    {d.draft && <p class="rh-devnote">Nacrt: ova tema još nije objavljena na sajtu.</p>}
     <p class="rh-pagehead__lead lead" style="color:var(--ink)">{d.answer}</p>
     <p class="rh-byline">
       <Asterisk tone="blue" size={12} />
@@ -55,9 +56,9 @@ const sources = getSources(d.sources);
       <span>· Izmenjeno <time datetime={modified.toISOString().slice(0, 10)}>{fmt(modified)}</time></span>
     </p>
     <ul class="rh-facts" style="margin-top:0">
-      <li><Asterisk tone="blue" size={12} /><strong>Online</strong>, video poziv</li>
+      <li><Asterisk tone="blue" size={12} /><strong>{formatPhrase[0].toUpperCase() + formatPhrase.slice(1)}</strong></li>
       <li><Asterisk tone="red" size={12} />Na <strong>srpskom</strong></li>
-      <li><Asterisk tone="blue" size={12} /><strong>{practice.sessionMinutes} minuta</strong>, cena {priceLabel()}</li>
+      <li><Asterisk tone="blue" size={12} />Seanse od <strong>{practice.sessionMinutes} minuta</strong></li>
     </ul>
   </PageHead>
 

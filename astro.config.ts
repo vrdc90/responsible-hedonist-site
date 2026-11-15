@@ -2,7 +2,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync } from 'node:fs';
 import cspHashes from './src/integrations/csp-hashes';
-import { practice, site } from './src/data/practice';
+import { site } from './src/data/practice';
 
 /**
  * lastmod u sitemap-u dolazi iz frontmattera (updatedDate, pa pubDate) i postoji samo
@@ -22,13 +22,21 @@ function contentDates(): Map<string, string> {
 }
 const lastmod = contentDates();
 
-/** Adresa servisa za kontakt formu mora biti dozvoljena u CSP-u (form-action). */
-const formOrigin = practice.form.endpoint ? new URL(practice.form.endpoint).origin : '';
+/** `npm run review` pravi poseban build za pregled (sa nacrtima tema) u .review-build/, a dist/ ostaje netaknut. */
+const review = process.env.PUBLIC_REVIEW === '1';
+
+/**
+ * Objavljene adrese uvek imaju kosu crtu na kraju (/kako-radim/), a Cloudflare Pages
+ * adresu bez nje sam preusmerava. Lokalni `astro dev` i `astro preview` to ne rade, nego
+ * za /kako-radim pokažu svoju 404, pa lokalno prihvatamo obe verzije.
+ */
+const localServer = ['dev', 'preview'].includes(process.argv[2] ?? '');
 
 export default defineConfig({
   site: site.url,
   output: 'static',
-  trailingSlash: 'always',
+  outDir: review ? './.review-build' : './dist',
+  trailingSlash: localServer ? 'ignore' : 'always',
   build: {
     format: 'directory',
     // Ceo CSS ide inline: jedna stranica = jedan zahtev, brži LCP na telefonu.
@@ -36,13 +44,13 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(404|hvala)\/$/.test(page),
+      filter: (page) => !page.endsWith('/404/'),
       serialize(item) {
         const date = lastmod.get(item.url);
         return date ? { ...item, lastmod: date } : item;
       },
     }),
-    cspHashes({ formOrigin }),
+    cspHashes(),
   ],
   fonts: [
     {

@@ -12,7 +12,7 @@ import Statement from '../components/Statement.astro';
 import Faq from '../components/Faq.astro';
 import InstagramGrid from '../components/InstagramGrid.astro';
 import BookingBanner from '../components/BookingBanner.astro';
-import { person, practice, priceLabel, crisis } from '../data/practice';
+import { person, practice, crisis, formatPhrase, formatChoice, placeLabel } from '../data/practice';
 import { getAllTopics, isLive } from '../lib/content';
 import { serviceNode } from '../lib/schema';
 
@@ -25,8 +25,8 @@ const topicItems = topics.map((t) => ({
 
 const faq = [
   {
-    q: 'Kako izgleda online seansa?',
-    a: `<p>Video poziv od ${practice.sessionMinutes} minuta. Link stiže emailom i ništa ne moraš da instaliraš. Treba ti mirno mesto, slušalice i internet koji ne seče. Razgovaramo kao uživo, samo što ti biraš sobu.</p>`,
+    q: 'Da li se vidimo uživo ili online?',
+    a: `<p>Kako ti više odgovara. Seanse traju ${practice.sessionMinutes} minuta, ${formatChoice}. Online je video poziv: link stiže emailom i ništa ne moraš da instaliraš, treba ti samo mirno mesto i slušalice. Možeš i da kombinuješ.</p>`,
   },
   {
     q: 'Koliko traje terapija?',
@@ -42,14 +42,14 @@ const faq = [
   },
   {
     q: 'Šta ako sam u krizi?',
-    a: `<p>Online terapija nije hitna služba. Ako si u neposrednoj opasnosti, pozovi <a href="tel:${crisis.lines[0].tel}">${crisis.lines[0].number}</a>. Za razgovor odmah je tu Centar Srce na <a href="tel:${crisis.lines[1].tel}">${crisis.lines[1].number.replace(/ /g, '\u00a0')}</a>, svaki dan od 14 do 23 h, besplatno. Van Srbije pozovi lokalni broj za hitne slučajeve, u EU <a href="tel:112">112</a>.</p>`,
+    a: `<p>Terapija nije hitna služba. Ako si u neposrednoj opasnosti, pozovi <a href="tel:${crisis.lines[0].tel}">${crisis.lines[0].number}</a>. Za razgovor odmah je tu Centar Srce na <a href="tel:${crisis.lines[1].tel}">${crisis.lines[1].number.replace(/ /g, '\u00a0')}</a>, svaki dan od 14 do 23 h, besplatno. Van Srbije pozovi lokalni broj za hitne slučajeve, u EU <a href="tel:112">112</a>.</p>`,
   },
 ];
 ---
 <Base
-  title="Online REBT terapija na srpskom | Jelena Marjanović, psiholog"
+  title={practice.location.cityIn ? `Psiholog ${practice.location.cityIn} i online: REBT terapija | ${person.name}` : `REBT terapija ${formatPhrase}, na srpskom | ${person.name}`}
   fullTitle
-  description="Online REBT terapija na srpskom za anksioznost, perfekcionizam, odlaganje i ljutnju. Video poziv, 50 minuta. Jelena Marjanović, psiholog."
+  description={`REBT terapija na srpskom, ${formatPhrase}, za anksioznost, perfekcionizam, odlaganje i svakodnevne probleme. Jelena Marjanović, master psiholog.`}
   schema={[serviceNode()]}
   faq={faq}
   preloadSerif
@@ -58,23 +58,23 @@ const faq = [
   <section class="rh-hero" aria-labelledby="hero-naslov">
     <div class="container rh-hero__grid">
       <div class="rh-hero__copy">
-        <Eyebrow tone="lime">Online REBT terapija · na srpskom</Eyebrow>
+        <Eyebrow tone="lime">REBT terapija · {formatPhrase}</Eyebrow>
         <h1 id="hero-naslov" class="rh-hero__title display">Previše „moram“ za jednu glavu.</h1>
-        <p class="rh-hero__lead lead">Online REBT terapija na srpskom, za anksioznost, perfekcionizam, odlaganje i ljutnju. Radimo na tome da strogi zahtevi prema sebi postanu želje sa kojima može da se živi.</p>
+        <p class="rh-hero__lead lead">REBT terapija na srpskom, {formatPhrase}, za anksioznost, perfekcionizam, odlaganje i ljutnju, ali i za svakodnevne probleme koji nemaju ime. Radimo na tome da strogi zahtevi prema sebi postanu želje sa kojima može da se živi.</p>
         <div class="rh-hero__actions">
           <Button href="/zakazivanje/" star>Zakaži prvi razgovor</Button>
           <Button href="/kako-radim/" variant="link">Kako izgleda terapija</Button>
         </div>
-        <p class="rh-hero__note small">{practice.introCall.offered ? `Uvodni razgovor od ${practice.introCall.minutes} minuta${practice.introCall.free ? ' je besplatan' : ''}. Bez obaveze da nastaviš.` : 'Bez obaveze da nastaviš posle prvog razgovora.'}</p>
+        <p class="rh-hero__note small">{practice.firstSessionFree ? 'Prva seansa je besplatna. Bez obaveze da nastaviš.' : 'Bez obaveze da nastaviš posle prvog razgovora.'}</p>
         <div class="rh-hero__meta">
           <div class="rh-who">
             <Avatar />
             <p><strong>{person.name}</strong>{person.credentialsShort}</p>
           </div>
           <ul class="rh-facts rh-facts--plain">
-            <li><Asterisk tone="blue" size={12} /><strong>Online</strong>, video poziv</li>
+            <li><Asterisk tone="blue" size={12} /><strong>Uživo</strong>{placeLabel && ` (${placeLabel})`} i <strong>online</strong></li>
             <li><Asterisk tone="red" size={12} />Na <strong>srpskom</strong>, iz <a class="rh-link" href="/terapija-na-srpskom-u-inostranstvu/">Srbije i inostranstva</a></li>
-            <li><Asterisk tone="blue" size={12} /><strong>{practice.sessionMinutes} minuta</strong>, cena {priceLabel()}</li>
+            <li><Asterisk tone="blue" size={12} />Seanse od <strong>{practice.sessionMinutes} minuta</strong></li>
           </ul>
         </div>
       </div>
@@ -138,9 +138,9 @@ const faq = [
         <h2 id="koraci-naslov" class="h2">Tri koraka, bez iznenađenja</h2>
       </div>
       <ProcessSteps steps={[
-        { title: 'Javiš se ili zakažeš termin', text: `Izabereš termin u kalendaru ili mi pišeš. ${practice.responseTime}` },
+        { title: 'Javiš se', text: `${person.phone ? 'Pišeš ili zoveš: email, telefon, Viber, WhatsApp ili Instagram' : 'Pišeš mi na email ili Instagram'}, kako ti je lakše. ${practice.responseTime}` },
         { title: 'Prvi razgovor', text: 'Pričamo o tome šta te muči, šta želiš da promeniš i da li ti ovakav rad odgovara. Bez obaveze da nastaviš.' },
-        { title: 'Seanse u dogovorenom ritmu', text: `Video pozivi od ${practice.sessionMinutes} minuta, ${practice.rhythm}, i mali zadaci između njih, jer se najviše menja baš tada.` },
+        { title: 'Seanse u dogovorenom ritmu', text: `Seanse od ${practice.sessionMinutes} minuta, ${formatChoice}, ${practice.rhythm}, i mali zadaci između njih, jer se najviše menja baš tada.` },
       ]} />
     </div>
   </section>
@@ -152,7 +152,7 @@ const faq = [
       <div class="editorial__body stack">
         <Eyebrow tone="red">Ja sam Jelena</Eyebrow>
         <h2 id="jelena-naslov" class="h2">Pišem kao čovek, ne kao brošura. Tako i radim.</h2>
-        <p class="lead muted">Ja sam {person.name}, {person.title}. Radim online, na srpskom, po principima REBT-a: konkretno, sa radom na tačno određenim mislima i malim zadacima između seansi. Bez propovedanja i bez obećanja da će sve biti savršeno.</p>
+        <p class="lead muted">Ja sam {person.name}, {person.title}. Radim {formatPhrase}, na srpskom, po principima REBT-a: konkretno, sa radom na tačno određenim mislima i malim zadacima između seansi. Bez propovedanja i bez obećanja da će sve biti savršeno.</p>
         <p>O svom radu redovno razgovaram sa iskusnim supervizorom. To je standard dobre prakse i dodatna sigurnost za tebe.</p>
         <ul class="rh-creds">
           <li><Asterisk tone="blue" size={14} /><span>{person.title[0].toUpperCase() + person.title.slice(1)}, {person.education[0].institution}</span></li>
@@ -164,31 +164,31 @@ const faq = [
     </div>
   </section>
 
-  <!-- Format i cena -->
-  <section class="section section--stone" aria-labelledby="cena-naslov">
+  <!-- Format -->
+  <section class="section section--stone" aria-labelledby="format-naslov">
     <div class="container">
       <div class="section-head">
-        <Eyebrow tone="sky">Format i cena</Eyebrow>
-        <h2 id="cena-naslov" class="h2">Šta dobijaš i koliko košta</h2>
+        <Eyebrow tone="sky">Format</Eyebrow>
+        <h2 id="format-naslov" class="h2">Kako počinjemo</h2>
       </div>
       <div class="rh-cards">
-        {practice.introCall.offered && (
+        {practice.firstSessionFree && (
           <article class="rh-card">
-            <h3 class="rh-card__title h3">Uvodni razgovor</h3>
-            <div class="rh-card__body"><p>Kratak video poziv da se upoznamo i vidimo da li ti ovakav rad odgovara. Bez pripreme i bez obaveze.</p></div>
+            <h3 class="rh-card__title h3">Prva seansa, besplatno</h3>
+            <div class="rh-card__body"><p>Cela prva seansa je besplatna. Upoznamo se, vidimo šta te muči i da li ti ovakav rad odgovara. Bez pripreme i bez obaveze da nastaviš.</p></div>
             <dl class="rh-card__facts">
-              <div class="rh-card__fact"><dt class="small">Trajanje</dt><dd>{practice.introCall.minutes} minuta</dd></div>
-              <div class="rh-card__fact"><dt class="small">Cena</dt><dd>{practice.introCall.free ? 'besplatno' : priceLabel()}</dd></div>
+              <div class="rh-card__fact"><dt class="small">Trajanje</dt><dd>{practice.sessionMinutes} minuta</dd></div>
+              <div class="rh-card__fact"><dt class="small">Obaveza</dt><dd>nema</dd></div>
             </dl>
-            <div class="rh-card__action"><Button href="/zakazivanje/" variant="secondary">Zakaži uvodni razgovor</Button></div>
+            <div class="rh-card__action"><Button href="/zakazivanje/" variant="secondary">Zakaži prvu seansu</Button></div>
           </article>
         )}
         <article class="rh-card rh-card--featured">
-          <h3 class="rh-card__title h3">Individualna seansa, online</h3>
-          <div class="rh-card__body"><p>REBT seansa preko video poziva, na srpskom. Radimo na konkretnim situacijama i mislima, uz male zadatke do sledećeg puta.</p></div>
+          <h3 class="rh-card__title h3">Individualna seansa</h3>
+          <div class="rh-card__body"><p>REBT seansa {formatChoice}, na srpskom. Radimo na konkretnim situacijama i mislima, uz male zadatke do sledećeg puta.</p></div>
           <dl class="rh-card__facts">
             <div class="rh-card__fact"><dt class="small">Trajanje</dt><dd>{practice.sessionMinutes} minuta</dd></div>
-            <div class="rh-card__fact"><dt class="small">Cena</dt><dd>{priceLabel()}</dd></div>
+            <div class="rh-card__fact"><dt class="small">Format</dt><dd>uživo ili online</dd></div>
             <div class="rh-card__fact"><dt class="small">Otkazivanje</dt><dd>do 24 h pre termina</dd></div>
           </dl>
           <div class="rh-card__action"><Button href="/zakazivanje/" star>Zakaži termin</Button></div>

@@ -8,8 +8,8 @@
  */
 
 export const site = {
-  /** TODO: pravi domen. Koristi se za canonical, sitemap, OG i JSON-LD. */
-  url: 'https://jelenamarjanovic.rs',
+  /** Glavni domen. Koristi se za canonical, sitemap, OG i JSON-LD. responsible-hedonist.com se preusmerava ovde. */
+  url: 'https://jelenamarjanovic.net',
   brand: 'Responsible Hedonist',
   lang: 'sr-Latn',
   locale: 'sr_RS',
@@ -21,7 +21,7 @@ export const person = {
   name: 'Jelena Marjanović',
   givenName: 'Jelena',
   familyName: 'Marjanović',
-  /** Zvanje tačno kako piše u diplomi. Trenutno: kako stoji u Instagram biografiji. */
+  /** Zvanje tačno kako piše u diplomi (potvrđeno). */
   title: 'master psiholog',
   /**
    * Status u edukaciji, u formulaciji dogovorenoj sa edukacijom i supervizorom.
@@ -33,14 +33,14 @@ export const person = {
   education: [
     {
       institution: 'Filozofski fakultet, Univerzitet u Novom Sadu',
-      degree: 'Studije psihologije',
-      year: null as number | null,
+      degree: 'Master studije psihologije',
+      year: 2021 as number | null,
     },
   ],
   rebtTraining: {
     program: 'Edukacija iz racionalno-emotivne i kognitivno-bihejvioralne terapije (RE&CBT)',
-    association: null as string | null,
-    associationUrl: null as string | null,
+    association: 'Udruženje za kognitivne i bihejvioralne terapije Srbije' as string | null,
+    associationUrl: 'https://ukbt.org.rs/' as string | null,
     since: null as number | null,
   },
   memberships: [] as { name: string; url?: string }[],
@@ -54,59 +54,53 @@ export const person = {
    * lakše povezuju da je reč o istoj osobi. Isti opis i isti link svuda.
    */
   profiles: [] as { name: string; url: string }[],
-  /** TODO: adresa na domenu. */
-  email: 'jelena@jelenamarjanovic.rs',
-  /** Putanja do portreta u src/assets/ kad stigne (4:5, dnevno svetlo). */
-  hasPortrait: false,
+  email: 'responsiblehedonistpsychology@gmail.com',
+  /** Delovi adrese između kojih sme da se prelomi red na uskim ekranima (spojeni moraju dati `email`). */
+  emailBreaks: ['responsible', 'hedonist', 'psychology', '@gmail.com'] as string[],
+  /**
+   * Broj za poziv, SMS, Viber i WhatsApp. `e164` je broj bez razmaka, sa pozivnim brojem,
+   * `display` je kako se ispisuje. Ako se postavi na null, kartica za telefon nestaje.
+   */
+  phone: { e164: '+381616801011', display: '+381 61 680 1011' } as { e164: string; display: string } | null,
+  /** Portret je u src/assets/portrait.jpg (4:5) i portrait-face.jpg (lice), a javna kopija u public/jelena.jpg. */
+  hasPortrait: true,
 } as const;
 
 export const practice = {
-  format: 'online, video poziv',
+  format: 'uživo i online (video poziv)',
   language: 'srpski',
   audience: 'odrasli koji govore srpski, u Srbiji i inostranstvu',
   modality: 'REBT',
   modalityLong: 'racionalno-emotivna bihejvioralna terapija (REBT)',
   sessionMinutes: 50,
   rhythm: 'najčešće jednom nedeljno, a kasnije ređe',
-  /** null znači da cena nije potvrđena; sajt tada piše „cena na upit“. */
+  /**
+   * Dok je null, jedino tabela uslova na /kako-radim/ piše „Cena seanse: na upit“, a ostatak sajta cenu ne pominje.
+   * Kad se upiše, prikazuje se u toj tabeli i na /uslovi/ (i ide u JSON-LD).
+   */
   price: { rsd: null as number | null, eur: null as number | null },
-  introCall: { offered: true, minutes: 15, free: true },
-  cancellation: 'Termin možeš da otkažeš ili pomeriš bez troška do 24 sata pre početka.',
-  payment: [
-    'uplata na račun, uz IPS QR kod (Srbija)',
-    'PayPal ili Wise (inostranstvo)',
-  ],
-  paymentWhen: 'Seansa se plaća unapred, najkasnije 24 sata pre termina.',
+  /** Cela prva seansa je besplatna (potvrđeno). */
+  firstSessionFree: true,
+  cancellation: 'Seansu možeš da otkažeš najkasnije 24 sata pre termina.',
+  paymentWhen: 'Online seanse se plaćaju unapred, najkasnije 24 sata pre termina.',
+  /** Radi i uživo u ordinaciji i online (potvrđeno). */
+  inPerson: true,
   /**
-   * TODO: link ka kalendaru (Cal.com ili Calendly), npr. 'https://cal.com/jelena/prvi-razgovor'.
-   * Kad se upiše, kalendar se ugrađuje na /zakazivanje/.
+   * Ordinacija za seanse uživo. `cityIn` i `districtIn` su u lokativu, kako se pišu u rečenici
+   * („u Beogradu“, „na Paliluli“). Ulica i broj se namerno ne prikazuju (dogovaraju se u poruci);
+   * za Google Business Profile ulica ipak treba pri verifikaciji, a može da se sakrije.
    */
-  bookingUrl: null as string | null,
-  /**
-   * Kontakt forma na /zakazivanje/. Sajt je statički, pa forma šalje podatke servisu
-   * koji ih prosleđuje na email (Web3Forms, Formspree, Netlify Forms…).
-   * `endpoint` je adresa servisa, `hidden` su skrivena polja koja servis traži
-   * (ključ, adresa za povratak na /hvala/), `honeypot` je ime polja-zamke za botove.
-   * Dok je endpoint null, forma se vidi samo u dev režimu, a na sajtu stoji email.
-   */
-  form: {
-    endpoint: null as string | null,
-    hidden: {} as Record<string, string>,
-    honeypot: 'botcheck',
+  location: {
+    city: 'Beograd' as string | null,
+    cityIn: 'u Beogradu' as string | null,
+    district: 'Palilula' as string | null,
+    districtIn: 'na Paliluli' as string | null,
+    address: null as string | null,
+    postalCode: null as string | null,
   },
-  /**
-   * Uživo u ordinaciji: Instagram biografija kaže „uživo & online“, plan sajta kaže samo online.
-   * Dok je false, sajt svuda piše samo online. Ako postane true, vredi otvoriti i Google Business Profile.
-   */
-  inPerson: false,
   video: 'link za video poziv stiže emailom, ništa ne moraš da instaliraš',
   responseTime: 'Odgovaram u roku od 48 sati, radnim danima.',
   worksWith: 'odrasli (18+)',
-  doesNotWorkWith: [
-    'akutna kriza i hitne situacije',
-    'zavisnosti kao glavna tema rada',
-    'stanja kojima je prvo potrebna psihijatrijska procena',
-  ],
 } as const;
 
 export const crisis = {
@@ -123,22 +117,36 @@ export const crisis = {
   ],
 } as const;
 
-export const topicsLive = ['anksioznost', 'perfekcionizam', 'odlaganje'] as const;
+export const topicsLive = ['anksioznost', 'perfekcionizam', 'odlaganje', 'svakodnevica'] as const;
 
-/** Formatira cenu ili vraća „na upit“. */
-export function priceLabel(): string {
+/** „uživo u Beogradu i online“, ili „uživo i online“ dok grad nije upisan. */
+export const formatPhrase = practice.location.cityIn ? `uživo ${practice.location.cityIn} i online` : 'uživo i online';
+/** „uživo u Beogradu ili online“, za rečenice o jednoj seansi. */
+export const formatChoice = practice.location.cityIn ? `uživo ${practice.location.cityIn} ili online` : 'uživo ili online';
+/** „Beograd, Palilula“: mesto ordinacije za kratke oznake. */
+export const placeLabel = [practice.location.city, practice.location.district].filter(Boolean).join(', ');
+
+/** Formatirana cena, ili null dok je cena na upit (tada je sajt ne pominje). */
+export function priceLabel(): string | null {
   const { rsd, eur } = practice.price;
   if (rsd && eur) return `${rsd.toLocaleString('sr-RS')} RSD (${eur} € iz inostranstva)`;
   if (rsd) return `${rsd.toLocaleString('sr-RS')} RSD`;
   if (eur) return `${eur} €`;
-  return 'na upit';
+  return null;
 }
 
-/** Link za zakazivanje: kalendar kad postoji, inače email sa popunjenim naslovom. */
-export function bookingHref(): string {
-  if (practice.bookingUrl) return practice.bookingUrl;
-  const subject = encodeURIComponent('Prvi razgovor');
-  return `mailto:${person.email}?subject=${subject}`;
+/** Email sa popunjenim naslovom poruke. */
+export const mailHref = `mailto:${person.email}?subject=${encodeURIComponent('Prvi razgovor')}`;
+
+/** Svi načini da se stupi u kontakt preko broja telefona. */
+export function phoneLinks(phone: { e164: string }) {
+  const digits = phone.e164.replace(/[^\d]/g, '');
+  return {
+    call: `tel:${phone.e164}`,
+    sms: `sms:${phone.e164}`,
+    viber: `viber://chat?number=%2B${digits}`,
+    whatsapp: `https://wa.me/${digits}`,
+  };
 }
 
 /**
@@ -146,22 +154,7 @@ export function bookingHref(): string {
  * Kad nešto potvrdi: upiši vrednost gore i obriši stavku odavde.
  */
 export const pending: string[] = [
-  'Domen sajta (site.url) i email na domenu (person.email)',
-  'Tačno zvanje iz diplome (person.title) i godina diplomiranja',
-  'Formulacija statusa u edukaciji (person.status), dogovorena sa edukacijom',
-  'Naziv REBT edukacije, udruženja i godina početka (person.rebtTraining)',
-  'Cena seanse u RSD i EUR (practice.price)',
-  'Trajanje seanse: 45, 50 ili 60 minuta (practice.sessionMinutes)',
-  'Besplatan uvodni razgovor od 15 minuta: da ili ne (practice.introCall)',
-  'Pravilo otkazivanja i plaćanja (practice.cancellation, practice.payment)',
-  'Link ka kalendaru za zakazivanje (practice.bookingUrl)',
-  'Servis za kontakt formu (practice.form.endpoint); dok ga nema, forma se vidi samo u dev režimu',
-  'Uživo ili samo online (practice.inPerson): Instagram kaže „uživo & online“, plan sajta samo online',
-  'Javni profili za sameAs: LinkedIn, direktorijumi, udruženje (person.profiles)',
-  'Stručni izvori (src/data/izvori.ts): Jelena potvrđuje da su to izvori na koje se oslanja',
-  'Uslovi saradnje (/uslovi/) i privatnost: proverava pravnik ili knjigovođa',
-  'Sa kim ne radi, dogovoreno sa supervizorom (practice.doesNotWorkWith)',
-  'Portret 4:5 u src/assets/portrait.jpg (person.hasPortrait)',
-  'Naslov u heroju na početnoj: jedan od predloga ili njen',
+  'Formulacija statusa u edukaciji (person.status): sada piše kao u Instagram biografiji',
+  'Cena (opciono): za sada na upit; kad se upiše, vidi se na /kako-radim/ i /uslovi/',
   'Svi tekstovi su nacrti: Jelena ih prepravlja u svom glasu i potpisuje',
 ];

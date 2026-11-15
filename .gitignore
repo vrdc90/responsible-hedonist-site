@@ -6,3 +6,11 @@ dist/
 !.env.example
 .DS_Store
 *.log
+
+# Originali slika (obrađene verzije su u src/assets i public)
+originals/*
+!originals/README.md
+
+# Fajl za pregled (npm run review)
+.review-build/
+pregled/

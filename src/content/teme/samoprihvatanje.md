@@ -2,9 +2,9 @@
 title: "Samoprihvatanje i samopouzdanje: REBT terapija online"
 name: Samoprihvatanje
 h1: "Samoprihvatanje: kad sebe pohvališ samo kad zaslužiš"
-description: "Online REBT terapija za samoprihvatanje, na srpskom. Zašto samopouzdanje nije isto što i samoprihvatanje i kako da vrediš i kad ne uspeš."
+description: "REBT terapija za samoprihvatanje, uživo i online. Zašto samopouzdanje nije isto što i samoprihvatanje i kako da vrediš i kad ne uspeš."
 hook: "Druge hvališ lako. Sebe teško, i to samo kad zaslužiš."
-answer: "Samopouzdanje zavisi od uspeha: raste kad ide, pada kad ne ide. Samoprihvatanje ne zavisi. REBT ga zove bezuslovno samoprihvatanje: tvoji postupci mogu biti dobri ili loši, ali ti kao osoba ne postaješ bolja ili gora zbog njih. Na online terapiji na srpskom učimo da odvojiš ocenu postupka od ocene sebe."
+answer: "Samopouzdanje zavisi od uspeha: raste kad ide, pada kad ne ide. Samoprihvatanje ne zavisi. REBT ga zove bezuslovno samoprihvatanje: tvoji postupci mogu biti dobri ili loši, ali ti kao osoba ne postaješ bolja ili gora zbog njih. Na terapiji, uživo ili online, učimo da odvojiš ocenu postupka od ocene sebe."
 order: 5
 pubDate: 2026-11-15
 draft: true

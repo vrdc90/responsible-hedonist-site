@@ -2,50 +2,46 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import CrisisNote from '../components/CrisisNote.astro';
-import { person, practice, priceLabel } from '../data/practice';
+import { person, practice, priceLabel, formatChoice } from '../data/practice';
 
 const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Uslovi saradnje', href: '/uslovi/' }];
 ---
 <Base
   title="Uslovi saradnje i korišćenja sajta"
-  description="Uslovi saradnje: zakazivanje, plaćanje, otkazivanje, poverljivost i njene granice, tehnički uslovi za online seanse i napomena o sadržaju sajta."
+  description="Uslovi saradnje: zakazivanje, plaćanje, otkazivanje, tehnički uslovi za online seanse, šta terapija nije i napomena o sadržaju sajta."
   crumbs={crumbs}
 >
   <PageHead crumbs={crumbs} eyebrow="Uslovi" tone="blue" title="Uslovi saradnje" lead="Kratko i bez sitnih slova: šta možeš da očekuješ od mene i šta ja očekujem od tebe." />
   <section class="section section--tight" style="padding-top:0">
     <div class="container">
       <div class="prose">
-        <p><em>Nacrt. Pre objave ga proveravaju Jelena i pravnik ili knjigovođa.</em></p>
-
         <h2 id="usluga">Šta je usluga</h2>
-        <p>Individualna online psihoterapija po principima REBT-a, video pozivom, na srpskom jeziku. Radim sa: {practice.worksWith}. Seansa traje {practice.sessionMinutes} minuta, a ritam je {practice.rhythm}.</p>
+        <p>Individualna psihoterapija po principima REBT-a, {formatChoice} (video poziv), na srpskom jeziku. Radim sa: {practice.worksWith}. Seansa traje {practice.sessionMinutes} minuta, a ritam je {practice.rhythm}.</p>
         <p>Radim kao {person.status}. O radu redovno razgovaram sa supervizorom, bez podataka po kojima bi neko mogao da te prepozna.</p>
 
         <h2 id="zakazivanje">Zakazivanje i plaćanje</h2>
         <ul>
-          <li>Cena seanse: {priceLabel()}.</li>
-          {practice.introCall.offered && <li>Uvodni razgovor traje {practice.introCall.minutes} minuta{practice.introCall.free ? ' i besplatan je' : ''}.</li>}
+          {priceLabel() && <li>Cena seanse: {priceLabel()}.</li>}
+          {practice.firstSessionFree && <li>Prva seansa je besplatna i ne obavezuje te da nastaviš.</li>}
           <li>{practice.paymentWhen}</li>
-          <li>Načini plaćanja: {practice.payment.join('; ')}.</li>
         </ul>
 
         <h2 id="otkazivanje">Otkazivanje i kašnjenje</h2>
         <p>{practice.cancellation}</p>
         <p>{/* TODO Jelena: pravilo za kasno otkazivanje i kašnjenje. */}Ako kasniš, seansa se završava u dogovoreno vreme.</p>
 
-        <h2 id="poverljivost">Poverljivost i njene granice</h2>
-        <p>Sve o čemu razgovaramo je poverljivo, po etičkom kodeksu psihologa. Seanse se ne snimaju, ni sa moje ni sa tvoje strane, osim ako se o tome izričito dogovorimo.</p>
-        <p>Poverljivost ima izuzetke koje nalažu zakon i etika: kada postoji neposredna opasnost po tvoj ili tuđi život ili zdravlje, i kada to zahteva sud. Ako do toga dođe, trudim se da prvo razgovaram s tobom.</p>
+        <h2 id="poverljivost">Poverljivost</h2>
+        <p>Sve o čemu razgovaramo je poverljivo, a seanse se ne snimaju, ni sa moje ni sa tvoje strane. Šta to tačno znači i gde su granice piše na stranici <a href="/privatnost/">poverljivost i privatnost</a>.</p>
 
-        <h2 id="tehnika">Tehnički uslovi</h2>
+        <h2 id="tehnika">Online seanse: tehnički uslovi</h2>
         <ul>
           <li>Stabilan internet, kamera i mikrofon; slušalice se preporučuju.</li>
           <li>Mesto na kom te niko ne čuje i ne prekida. Privatnost prostora s tvoje strane je tvoja odgovornost.</li>
           <li>Ako veza pukne, nastavljamo čim se oboje ponovo povežemo.</li>
         </ul>
 
-        <h2 id="granice">Šta online terapija nije</h2>
-        <p>Nije hitna služba i nije zamena za psihijatrijsko lečenje. Ne postavljam dijagnoze i ne propisujem lekove. Ne radim sa: {practice.doesNotWorkWith.join('; ')}. Ako procenim da ti je potrebna drugačija vrsta pomoći, reći ću ti to i pomoći da nađeš smer.</p>
+        <h2 id="granice">Šta terapija nije</h2>
+        <p>Nije hitna služba i nije zamena za psihijatrijsko lečenje. Ne postavljam dijagnoze i ne propisujem lekove. Ako procenim da ti je potrebna drugačija vrsta pomoći, reći ću ti to i pomoći da nađeš smer.</p>
       </div>
       <div style="max-width:var(--measure);margin-top:var(--space-8)"><CrisisNote /></div>
       <div class="prose" style="margin-top:var(--space-6)">
@@ -53,7 +49,7 @@ const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Uslovi saradnje', href
         <p>Tekstovi na sajtu su informativni. Nisu psihološka procena, dijagnoza ni zamena za razgovor sa stručnjakom. Ako se u nekom tekstu prepoznaš, to je dobar razlog za razgovor, a ne zaključak o tebi.</p>
 
         <h2 id="kontakt">Pitanja</h2>
-        <p>Za sve što nije jasno piši na <a href={`mailto:${person.email}`}>{person.email}</a>. Kako čuvam tvoje podatke piše u <a href="/privatnost/">politici privatnosti</a>.</p>
+        <p>Za sve što nije jasno piši na <a href={`mailto:${person.email}`}>{person.email}</a>. Kako čuvam tvoje podatke piše na stranici <a href="/privatnost/">poverljivost i privatnost</a>.</p>
       </div>
     </div>
   </section>

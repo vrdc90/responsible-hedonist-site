@@ -36,7 +36,7 @@ const posting = {
   author: { '@id': ids.person },
   publisher: { '@id': ids.person },
   mainEntityOfPage: { '@id': `${url}#webpage` },
-  image: new URL('/og.png', site.url).href,
+  image: new URL('/og.jpg', site.url).href,
   ...(topic ? { about: { '@type': 'Thing', name: topic.data.name } } : {}),
 };
 ---

@@ -6,7 +6,7 @@ import Asterisk from '../components/Asterisk.astro';
 import TopicList from '../components/TopicList.astro';
 import Faq from '../components/Faq.astro';
 import BookingBanner from '../components/BookingBanner.astro';
-import { person, practice, priceLabel } from '../data/practice';
+import { person, practice } from '../data/practice';
 import { serviceNode } from '../lib/schema';
 import { getTopics } from '../lib/content';
 
@@ -14,7 +14,6 @@ const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Terapija na srpskom iz
 const topics = await getTopics();
 const faq = [
   { q: 'Da li mogu na terapiju na srpskom ako živim u inostranstvu?', a: '<p>Da. Radim online, video pozivom, pa nije važno da li si u Nemačkoj, Austriji, Švajcarskoj, Švedskoj ili negde dalje. Treba ti mirno mesto, slušalice i stabilan internet.</p>' },
-  { q: 'Kako plaćam iz inostranstva?', a: `<p>Načini plaćanja su: ${practice.payment.join('; ')}. Uputstvo stiže u emailu sa potvrdom termina.</p>` },
   { q: 'Šta je sa vremenskom razlikom?', a: '<p>Termin dogovaramo tako da odgovara tvom danu, a potvrda stiže sa tačnim vremenom. Ako si u vremenskoj zoni daleko od srednjoevropske, napiši mi to u prvoj poruci.</p>' },
   { q: 'Zašto terapija na maternjem jeziku ako dobro govorim strani?', a: '<p>Zato što se o osećanjima najlakše govori na jeziku na kom smo ih naučili. Na stranom jeziku često tražimo reč, pa stignemo do opisa, ali ne i do onoga što boli. Na srpskom ne moraš da prevodiš ni sebe ni kontekst iz kog dolaziš.</p>' },
 ];
@@ -37,7 +36,7 @@ const faq = [
     <ul class="rh-facts" style="margin-top:0">
       <li><Asterisk tone="blue" size={12} /><strong>Online</strong>, video poziv</li>
       <li><Asterisk tone="red" size={12} />Na <strong>srpskom</strong></li>
-      <li><Asterisk tone="blue" size={12} /><strong>{practice.sessionMinutes} minuta</strong>, cena {priceLabel()}</li>
+      <li><Asterisk tone="blue" size={12} />Seanse od <strong>{practice.sessionMinutes} minuta</strong></li>
     </ul>
   </PageHead>
 
@@ -74,7 +73,6 @@ const faq = [
         <ul>
           <li>Seansa je video poziv od {practice.sessionMinutes} minuta. Link stiže emailom i ništa ne instaliraš.</li>
           <li>Termin dogovaramo prema tvojoj vremenskoj zoni.</li>
-          <li>Plaćanje iz inostranstva: {practice.payment[practice.payment.length - 1].replace(/\s*\(.*\)$/, '')}.</li>
           <li>Pristup je isti kao i za ljude u Srbiji. Više o tome na stranici <a href="/kako-radim/">kako radim</a>.</li>
         </ul>
         <h3>Sa čim ljudi najčešće dolaze</h3>

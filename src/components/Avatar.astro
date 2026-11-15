@@ -3,9 +3,13 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Asterisk from './Asterisk.astro';
-const found = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait.{jpg,jpeg,png,webp}', { eager: true });
-const portrait = Object.values(found)[0]?.default;
+// Prvo isečak oko lica (portrait-face), pa ceo portret kao rezerva.
+const faces = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait-face.{jpg,jpeg,png,webp}', { eager: true });
+const full = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait.{jpg,jpeg,png,webp}', { eager: true });
+const portrait = Object.values(faces)[0]?.default ?? Object.values(full)[0]?.default;
+interface Props { size?: number }
+const { size = 52 } = Astro.props;
 ---
-<span class="rh-avatar" aria-hidden="true">
-  {portrait ? <Image src={portrait} alt="" width={104} height={104} fit="cover" position="top" loading="eager" /> : <Asterisk tone="blue" size={20} />}
+<span class="rh-avatar" aria-hidden="true" style={size !== 52 ? `width:${size}px;height:${size}px` : undefined}>
+  {portrait ? <Image src={portrait} alt="" width={size * 2} height={size * 2} fit="cover" position="top" loading="eager" /> : <Asterisk tone="blue" size={20} />}
 </span>

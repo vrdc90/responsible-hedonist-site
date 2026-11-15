@@ -8,7 +8,7 @@ import Statement from '../components/Statement.astro';
 import BookingBanner from '../components/BookingBanner.astro';
 import Sources from '../components/Sources.astro';
 import { getSources } from '../data/izvori';
-import { person, practice } from '../data/practice';
+import { person, practice, formatPhrase } from '../data/practice';
 import { ids } from '../lib/schema';
 
 const crumbs = [{ name: 'Početna', href: '/' }, { name: 'O meni', href: '/o-meni/' }];
@@ -32,13 +32,13 @@ const jeste = ['zadovoljstvo uz prihvatanje odgovornosti', 'mesto za preispitiva
     <div class="container editorial">
       <div class="editorial__head"><Portrait eager /></div>
       <div class="editorial__body stack">
-        <p class="lead">Ja sam {person.name}, {person.title}. Radim online, na srpskom, sa odraslima u Srbiji i u <a class="rh-link" href="/terapija-na-srpskom-u-inostranstvu/">inostranstvu</a>, po principima racionalno-emotivne bihejvioralne terapije (REBT).</p>
+        <p class="lead">Ja sam {person.name}, {person.title}. Radim {formatPhrase}, na srpskom, sa odraslima u Srbiji i, online, u <a class="rh-link" href="/terapija-na-srpskom-u-inostranstvu/">inostranstvu</a>. Radim po principima racionalno-emotivne bihejvioralne terapije (REBT).</p>
         <p class="muted">{/* TODO Jelena: 3–4 rečenice o tome zašto radiš ovo, u svom glasu. */}Na Instagramu pišem o stvarima o kojima ljudi retko pričaju naglas: o perfekcionizmu, odlaganju, granicama i o tome koliko smo strogi prema sebi. Na terapiji radim isto, samo detaljnije i u tvom tempu.</p>
         <ul class="rh-creds">
           {person.education.map((e) => (
             <li><Asterisk tone="blue" size={14} /><span><strong>{cap(person.title)}</strong>, {e.institution}{e.year ? `, ${e.year}.` : ''}</span></li>
           ))}
-          <li><Asterisk tone="red" size={14} /><span><strong>{person.rebtTraining.program}</strong>{person.rebtTraining.association ? `, ${person.rebtTraining.association}` : ''}{person.rebtTraining.since ? `, od ${person.rebtTraining.since}.` : ''}</span></li>
+          <li><Asterisk tone="red" size={14} /><span><strong>{person.rebtTraining.program}</strong>{person.rebtTraining.association && <>, {person.rebtTraining.associationUrl ? <a class="rh-link" href={person.rebtTraining.associationUrl} rel="noopener">{person.rebtTraining.association}</a> : person.rebtTraining.association}</>}{person.rebtTraining.since ? `, od ${person.rebtTraining.since}.` : ''}</span></li>
           <li><Asterisk tone="blue" size={14} /><span><strong>Status:</strong> {person.status}</span></li>
           {person.memberships.map((m) => <li><Asterisk tone="red" size={14} /><span>{m.name}</span></li>)}
           <li><Asterisk tone="blue" size={14} /><span><strong>Gde me još možeš naći:</strong> <a class="rh-link" href={person.instagram} rel="me noopener">Instagram {person.instagramHandle}</a>{person.profiles.map((p) => <>, <a class="rh-link" href={p.url} rel="me noopener">{p.name}</a></>)}</span></li>
@@ -93,11 +93,11 @@ const jeste = ['zadovoljstvo uz prihvatanje odgovornosti', 'mesto za preispitiva
       </div>
       <div class="editorial__body prose">
         <ul>
-          <li>Online, video pozivom, na srpskom.</li>
+          <li>{formatPhrase[0].toUpperCase() + formatPhrase.slice(1)}, na srpskom. Online je video poziv.</li>
           <li>Seanse od {practice.sessionMinutes} minuta, {practice.rhythm}.</li>
           <li>Radim sa: {practice.worksWith}.</li>
           <li>Ne postavljam dijagnoze i ne obećavam ishode. Kad treba, upućujem na psihijatra.</li>
-          <li>Ne objavljujem utiske klijenata. Etika psihologa ne dozvoljava da ih tražim od ljudi sa kojima radim, a poverenje gradim jasnim opisom rada i cene.</li>
+          <li>Ne objavljujem utiske klijenata. Etika psihologa ne dozvoljava da ih tražim od ljudi sa kojima radim, a poverenje gradim jasnim opisom rada i uslova.</li>
         </ul>
         <p><a href="/kako-radim/">Više o tome kako izgleda terapija</a></p>
       </div>

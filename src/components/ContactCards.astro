@@ -1,0 +1,105 @@
+---
+/**
+ * Kontakt na /zakazivanje/: email i telefon, svaki sa dugmetom za kopiranje.
+ * Ispod broja su sitni linkovi za poziv, SMS, Viber, WhatsApp i Instagram.
+ * Dugme za kopiranje radi preko Clipboard API-ja, a ako ga browser ne dozvoli, preko starijeg
+ * execCommand('copy'). Ako ni to ne prođe, označi adresu ili broj da se kopira ručno.
+ * Bez JavaScripta dugme se ne vidi i ostaju obični linkovi.
+ */
+import Icon from './Icon.astro';
+import { person, mailHref, phoneLinks } from '../data/practice';
+
+// Dok broj nije upisan, u dev režimu stoji primer da se vidi izgled; u produkciji se kartica ne prikazuje.
+const example = { e164: '+381600000000', display: '+381 60 000 0000' };
+const phone = person.phone ?? (import.meta.env.DEV ? example : null);
+const isExample = !person.phone && phone !== null;
+const links = phone ? phoneLinks(phone) : null;
+// Ako adresa ne stane u red, lomi se između reči (person.emailBreaks), a ne usred reči.
+const mailParts = person.emailBreaks.join('') === person.email ? person.emailBreaks : person.email.split(/(?=@)/);
+---
+<div class:list={['rh-contact', !phone && 'rh-contact--single']}>
+  <article class="rh-contact__card" aria-labelledby="kontakt-email">
+    <p class="rh-contact__label eyebrow" id="kontakt-email"><Icon name="mail" size={16} />Email</p>
+    <p class="rh-contact__value rh-contact__value--mail"><a href={mailHref}>{mailParts.map((part, i) => <>{i > 0 && <wbr />}{part}</>)}</a></p>
+    <div class="rh-contact__actions">
+      <button type="button" class="rh-copy" data-copy={person.email} data-copy-name="Email" hidden>
+        <span class="rh-copy__icon rh-copy__icon--copy"><Icon name="copy" size={18} /></span>
+        <span class="rh-copy__icon rh-copy__icon--done"><Icon name="check" size={18} /></span>
+        <span class="rh-copy__label">Kopiraj adresu</span>
+      </button>
+      <a class="rh-btn rh-btn--link" href={mailHref}>Otvori email</a>
+    </div>
+    <p class="rh-contact__note">Dovoljno je da napišeš ime i kad ti odgovara da se čujemo. Detalji nisu potrebni.</p>
+  </article>
+
+  {phone && links && (
+    <article class="rh-contact__card" aria-labelledby="kontakt-telefon">
+      {isExample && <p class="rh-devnote">Primer broja, vidi se samo u dev režimu. Pravi broj se upisuje u person.phone u practice.ts.</p>}
+      <p class="rh-contact__label eyebrow" id="kontakt-telefon"><Icon name="phone" size={16} />Telefon</p>
+      <p class="rh-contact__value"><a href={links.call}>{phone.display.replace(/ /g, '\u00a0')}</a></p>
+      <div class="rh-contact__actions">
+        <button type="button" class="rh-copy" data-copy={phone.e164} data-copy-name="Broj" hidden>
+          <span class="rh-copy__icon rh-copy__icon--copy"><Icon name="copy" size={18} /></span>
+          <span class="rh-copy__icon rh-copy__icon--done"><Icon name="check" size={18} /></span>
+          <span class="rh-copy__label">Kopiraj broj</span>
+        </button>
+        <a class="rh-btn rh-btn--link" href={links.call}>Pozovi</a>
+      </div>
+      <p class="rh-contact__note">
+        Možeš da pozoveš ili da pišeš:{' '}
+        <a href={links.sms}>SMS</a>, <a href={links.viber}>Viber</a>, <a href={links.whatsapp} rel="noopener">WhatsApp</a> ili <a href={person.instagramDm} rel="noopener">Instagram</a>.
+      </p>
+    </article>
+  )}
+</div>
+{!phone && (
+  <p class="rh-contact__alt">Možeš da pišeš i na Instagramu: <a class="rh-link" href={person.instagramDm} rel="noopener">{person.instagramHandle}</a>.</p>
+)}
+<p id="rh-copy-status" class="rh-sr" aria-live="polite"></p>
+<script is:inline>
+(function () {
+  var status = document.getElementById('rh-copy-status');
+  function legacyCopy(text) {
+    var t = document.createElement('textarea');
+    t.value = text;
+    t.setAttribute('readonly', '');
+    t.style.position = 'fixed';
+    t.style.opacity = '0';
+    document.body.appendChild(t);
+    t.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(t);
+    return ok;
+  }
+  function selectValue(b) {
+    var v = b.closest('.rh-contact__card').querySelector('.rh-contact__value a');
+    var r = document.createRange();
+    r.selectNodeContents(v);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  }
+  document.querySelectorAll('.rh-copy[data-copy]').forEach(function (b) {
+    var label = b.querySelector('.rh-copy__label');
+    var original = label.textContent;
+    var timer;
+    function show(text, done) {
+      b.classList.toggle('is-done', done);
+      label.textContent = text;
+      if (status) status.textContent = done ? b.getAttribute('data-copy-name') + ' je kopiran.' : text;
+      clearTimeout(timer);
+      timer = setTimeout(function () { b.classList.remove('is-done'); label.textContent = original; }, 2600);
+    }
+    b.hidden = false;
+    b.addEventListener('click', function () {
+      var text = b.getAttribute('data-copy');
+      var api = navigator.clipboard && window.isSecureContext ? navigator.clipboard.writeText(text) : Promise.reject();
+      api.then(function () { show('Kopirano', true); }, function () {
+        if (legacyCopy(text)) show('Kopirano', true);
+        else { selectValue(b); show('Označeno, kopiraj ručno', false); }
+      });
+    });
+  });
+})();
+</script>
