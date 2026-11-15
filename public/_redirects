@@ -1,0 +1,20 @@
+# Cloudflare Pages / Netlify: stalna (301) preusmerenja za adrese koje ljudi kucaju napamet.
+# Preusmerenje www -> bez www i http -> https podešava se u Cloudflare-u (Redirect Rules), ne ovde.
+/kontakt            /zakazivanje/   301
+/kontakt/           /zakazivanje/   301
+/cena               /zakazivanje/   301
+/cena/              /zakazivanje/   301
+/cenovnik           /zakazivanje/   301
+/cenovnik/          /zakazivanje/   301
+/zakazi             /zakazivanje/   301
+/zakazi/            /zakazivanje/   301
+/blog               /pitanja/       301
+/blog/              /pitanja/       301
+/o-nama             /o-meni/        301
+/o-nama/            /o-meni/        301
+/rebt               /kako-radim/    301
+/rebt/              /kako-radim/    301
+/dijaspora          /terapija-na-srpskom-u-inostranstvu/   301
+/dijaspora/         /terapija-na-srpskom-u-inostranstvu/   301
+/politika-privatnosti   /privatnost/   301
+/politika-privatnosti/  /privatnost/   301

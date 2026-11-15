@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Icon from '../../components/Icon.astro';
+import Asterisk, { type Tone } from '../../components/Asterisk.astro';
+import BookingBanner from '../../components/BookingBanner.astro';
+import { getTopics } from '../../lib/content';
+
+const topics = await getTopics();
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Teme', href: '/teme/' }];
+const tones: Tone[] = ['lime', 'sky', 'lavender', 'lime', 'sky'];
+---
+<Base
+  title="Teme: anksioznost, perfekcionizam, odlaganje"
+  description="Teme sa kojima radim u online REBT terapiji na srpskom: anksioznost, perfekcionizam, odlaganje i druge. Za svaku: kako izgleda, šta je ispod i šta radimo."
+  crumbs={crumbs}
+  pageType="CollectionPage"
+>
+  <PageHead
+    crumbs={crumbs}
+    eyebrow="Teme"
+    tone="sky"
+    title="Sa čim radim"
+    lead="Za svaku temu pišem isto: kako izgleda u svakodnevici, koja uverenja REBT vidi ispod toga i šta konkretno radimo na terapiji. Bez dijagnoza, rečima iz svakodnevice."
+  />
+  <section class="section section--tight" aria-label="Lista tema">
+    <div class="container">
+      <ul class="rh-list">
+        {topics.map((t, i) => (
+          <li>
+            <a class="rh-list__card" href={`/teme/${t.id}/`}>
+              <Asterisk tone={tones[i % tones.length]} size={24} />
+              <h2 class="h3">{t.data.name}</h2>
+              <p>{t.data.hook}</p>
+              <span class="rh-list__more">Pročitaj <Icon name="arrow" size={18} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <BookingBanner />
+</Base>

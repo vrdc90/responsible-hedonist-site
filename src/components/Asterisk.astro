@@ -1,0 +1,28 @@
+---
+/**
+ * Zvezdica ✳ iz loga, nacrtana kao SVG.
+ * Unicode ✳ se na telefonima prikazuje kao emodži, pa ga ne koristimo.
+ * Na svetloj podlozi lime, sky i lavender idu od 18px naviše.
+ */
+export type Tone = 'lime' | 'blue' | 'sky' | 'lavender' | 'red' | 'ink' | 'cream';
+interface Props {
+  tone?: Tone;
+  size?: number;
+  weight?: number;
+  class?: string;
+}
+const { tone = 'lime', size = 20, weight, class: className } = Astro.props;
+const stroke = weight ?? (size >= 28 ? 2.6 : 2.2);
+---
+<svg
+  class:list={['rh-ast', `rh-ast--${tone}`, className]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  aria-hidden="true"
+  focusable="false"
+><path d="M12 3v18M3 12h18M5.64 5.64l12.72 12.72M18.36 5.64 5.64 18.36" /></svg>

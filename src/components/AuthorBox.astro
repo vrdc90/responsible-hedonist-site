@@ -1,0 +1,18 @@
+---
+import Asterisk from './Asterisk.astro';
+import { person } from '../data/practice';
+interface Props { published?: Date; modified?: Date }
+const { published, modified } = Astro.props;
+const fmt = (d: Date) => d.toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<aside class="rh-author" aria-label="O autorki">
+  <span class="rh-author__mark"><Asterisk tone="blue" size={22} /></span>
+  <div>
+    <p class="rh-author__name">Napisala {person.name}</p>
+    <p>{person.credentialsShort}. O radu redovno razgovaram sa supervizorom. <a class="rh-link" href="/o-meni/">Više o meni</a></p>
+    <p class="rh-author__meta">
+      {published && <>Objavljeno <time datetime={published.toISOString().slice(0, 10)}>{fmt(published)}</time></>}
+      {modified && <> · Izmenjeno <time datetime={modified.toISOString().slice(0, 10)}>{fmt(modified)}</time></>}
+    </p>
+  </div>
+</aside>

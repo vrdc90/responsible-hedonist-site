@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import { crisis } from '../data/practice';
+/** U podnožju je landmark (aside); u tekstu stranice je obična napomena, da se landmark ne ponavlja. */
+interface Props { landmark?: boolean }
+const { landmark = false } = Astro.props;
+const Tag = landmark ? 'aside' : 'div';
+const nb = (s: string) => s.replace(/ /g, '\u00a0');
+---
+<Tag class="rh-crisis" role={landmark ? undefined : 'note'} aria-label={landmark ? 'Ako ti je pomoć potrebna odmah' : undefined}>
+  <Icon name="alert" />
+  <div>
+    <p class="rh-crisis__title">Ako ti je pomoć potrebna odmah</p>
+    <p class="rh-crisis__text">{crisis.note}</p>
+    <ul class="rh-crisis__list">
+      {crisis.lines.map((l) => (
+        <li><a href={`tel:${l.tel}`}>{nb(l.number)}</a> · {l.name}, {l.hours}</li>
+      ))}
+    </ul>
+  </div>
+</Tag>

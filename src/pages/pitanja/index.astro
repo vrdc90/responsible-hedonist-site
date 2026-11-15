@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Icon from '../../components/Icon.astro';
+import BookingBanner from '../../components/BookingBanner.astro';
+import { getQuestions } from '../../lib/content';
+
+const questions = await getQuestions();
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Pitanja', href: '/pitanja/' }];
+---
+<Base
+  title="Pitanja: kratki tekstovi o REBT-u i svakodnevici"
+  description="Kratki tekstovi o pitanjima koja ljudi stvarno postavljaju, poput „zašto mi je bitno šta će ljudi reći“. Odgovor odmah, pa primer i šta da probaš."
+  crumbs={crumbs}
+  pageType="CollectionPage"
+>
+  <PageHead
+    crumbs={crumbs}
+    eyebrow="Pitanja"
+    tone="lavender"
+    title="Pitanja koja ljudi stvarno postavljaju"
+    lead="Duže verzije Instagram postova. Svaki tekst počinje odgovorom, pa ide objašnjenje, primer i jedna stvar koju možeš da probaš."
+  />
+  <section class="section section--tight" style="padding-top:0" aria-label="Tekstovi">
+    <div class="container">
+      <ul class="rh-list">
+        {questions.map((q) => (
+          <li>
+            <a class="rh-list__card" href={`/pitanja/${q.id}/`}>
+              <h2 class="h3">{q.data.title}</h2>
+              <p>{q.data.description}</p>
+              <span class="rh-list__more">Pročitaj odgovor <Icon name="arrow" size={18} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="small muted" style="margin-top:var(--space-8)">Novi tekstovi stižu i kao <a class="rh-link" href="/pitanja/rss.xml">RSS</a>.</p>
+    </div>
+  </section>
+  <BookingBanner />
+</Base>

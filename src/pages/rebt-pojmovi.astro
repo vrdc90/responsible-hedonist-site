@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import BookingBanner from '../components/BookingBanner.astro';
+import { pojmovi } from '../data/pojmovi';
+import { site } from '../data/practice';
+import { ids } from '../lib/schema';
+
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'REBT pojmovi', href: '/rebt-pojmovi/' }];
+const url = new URL('/rebt-pojmovi/', site.url).href;
+const termSet = {
+  '@type': 'DefinedTermSet',
+  '@id': `${url}#pojmovi`,
+  name: 'REBT pojmovi na srpskom',
+  inLanguage: site.lang,
+  creator: { '@id': ids.person },
+  hasDefinedTerm: pojmovi.map((t) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${url}#${t.id}`,
+    name: t.term,
+    ...(t.aka ? { alternateName: t.aka } : {}),
+    description: t.def,
+    url: `${url}#${t.id}`,
+    inDefinedTermSet: { '@id': `${url}#pojmovi` },
+  })),
+};
+---
+<Base
+  title="REBT pojmovi na srpskom: rečnik sa primerima"
+  description="REBT pojmovi na srpskom, svaki u jednoj rečenici i sa primerom iz života: ABC model, katastrofiziranje, bezuslovno samoprihvatanje i drugi."
+  crumbs={crumbs}
+  schema={[termSet]}
+>
+  <PageHead
+    crumbs={crumbs}
+    eyebrow="Rečnik"
+    tone="sky"
+    title="REBT pojmovi na srpskom"
+    lead="Pojmovi koje koristimo na terapiji, objašnjeni jednom rečenicom i primerom iz života. Ako ti je neki od njih poznat iz sopstvene glave, to je dobar početak."
+  >
+    <nav aria-label="Pojmovi">
+      <ul class="rh-index">
+        {pojmovi.map((t) => <li><a href={`#${t.id}`}>{t.term}</a></li>)}
+      </ul>
+    </nav>
+  </PageHead>
+  <section class="section section--tight" style="padding-top:0">
+    <div class="container">
+      <dl class="rh-terms measure" style="max-width:760px">
+        {pojmovi.map((t) => (
+          <div class="rh-term" id={t.id}>
+            <dt><a href={`#${t.id}`}>{t.term}</a>{t.aka && <span class="muted" style="font-weight:400;font-size:16px"> · {t.aka}</span>}</dt>
+            <dd style="margin:0">
+              <p class="rh-term__def">{t.def}</p>
+              <p class="rh-term__ex"><em>Primer:</em> {t.example}</p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+  <BookingBanner />
+</Base>

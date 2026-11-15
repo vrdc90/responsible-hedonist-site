@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+interface Item { q: string; a: string }
+interface Props { items: Item[]; open?: number }
+const { items, open = -1 } = Astro.props;
+---
+<div class="rh-faqs">
+  {items.map((item, i) => (
+    <details class="rh-faq" open={i === open}>
+      <summary class="rh-faq__q"><span>{item.q}</span><span class="rh-faq__icon"><Icon name="plus" size={18} /></span></summary>
+      <div class="rh-faq__answer" set:html={item.a} />
+    </details>
+  ))}
+</div>

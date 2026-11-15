@@ -1,0 +1,6 @@
+---
+import Asterisk, { type Tone } from './Asterisk.astro';
+interface Props { tone?: Tone; as?: 'p' | 'span'; class?: string }
+const { tone = 'blue', as: Tag = 'p', class: className } = Astro.props;
+---
+<Tag class:list={['rh-eyebrow', 'eyebrow', className]}><Asterisk tone={tone} size={tone === 'blue' || tone === 'red' || tone === 'ink' ? 14 : 18} /><slot /></Tag>

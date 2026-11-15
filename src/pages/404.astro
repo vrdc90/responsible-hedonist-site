@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+---
+<Base title="Stranica nije pronađena" description="Ova stranica ne postoji. Pogledaj teme, kako radim ili zakaži prvi razgovor." noindex>
+  <section class="section">
+    <div class="container stack" style="max-width:720px">
+      <Eyebrow tone="red">404</Eyebrow>
+      <h1 class="display">Ova stranica ne <mark class="rh-hl">mora</mark> da postoji.</h1>
+      <p class="lead muted">I ne postoji. Ali ostatak sajta je tu.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4) var(--space-8);align-items:center;margin-top:var(--space-6)">
+        <Button href="/" star>Na početnu</Button>
+        <Button href="/teme/" variant="link">Teme</Button>
+        <Button href="/zakazivanje/" variant="link">Cena i zakazivanje</Button>
+      </div>
+    </div>
+  </section>
+</Base>

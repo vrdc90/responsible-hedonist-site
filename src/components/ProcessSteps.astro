@@ -1,0 +1,16 @@
+---
+import Asterisk, { type Tone } from './Asterisk.astro';
+interface Step { title: string; text: string }
+interface Props { steps: Step[] }
+const { steps } = Astro.props;
+const tones: Tone[] = ['lime', 'sky', 'lavender'];
+---
+<ol class="rh-steps">
+  {steps.map((s, i) => (
+    <li class="rh-steps__item">
+      <span class="rh-steps__num eyebrow"><Asterisk tone={tones[i % 3]} size={18} />Korak {i + 1}</span>
+      <h3 class="rh-steps__title h3">{s.title}</h3>
+      <p class="rh-steps__text">{s.text}</p>
+    </li>
+  ))}
+</ol>

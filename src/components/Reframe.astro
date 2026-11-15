@@ -1,0 +1,25 @@
+---
+/**
+ * Potpisni element: kruti zahtev se precrta crvenom linijom,
+ * a ispod se upiše fleksibilna misao sa limeta markerom.
+ * Animira se jednom, pri učitavanju; uz prefers-reduced-motion odmah je u krajnjem stanju.
+ * Oba teksta su uvek u HTML-u, pa ih vide i čitači ekrana i crawleri.
+ */
+import Asterisk from './Asterisk.astro';
+interface Pair { from: string; mark: string; rest: string }
+interface Props { pairs: Pair[] }
+const { pairs } = Astro.props;
+---
+<div class="rh-reframe-wrap" style="position:relative">
+  <ol class="rh-reframe">
+    {pairs.map((p, i) => (
+      <li class="rh-reframe__card" style={`--i:${i}`}>
+        <p class="rh-reframe__old"><span class="rh-sr">Umesto: </span><span class="rh-reframe__strike">{p.from}</span></p>
+        <p class="rh-reframe__new"><span class="rh-sr">Probaj: </span><mark class="rh-hl">{p.mark}</mark>{p.rest}</p>
+      </li>
+    ))}
+  </ol>
+  <span class="rh-reframe__star rh-reframe__star--a"><Asterisk tone="lime" size={36} /></span>
+  <span class="rh-reframe__star rh-reframe__star--b"><Asterisk tone="lavender" size={28} /></span>
+  <span class="rh-reframe__star rh-reframe__star--c"><Asterisk tone="sky" size={30} /></span>
+</div>

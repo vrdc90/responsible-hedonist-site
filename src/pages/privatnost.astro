@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { person } from '../data/practice';
+
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Privatnost', href: '/privatnost/' }];
+---
+<Base
+  title="Politika privatnosti"
+  description="Koje podatke sajt i zakazivanje obrađuju, zašto, koliko dugo i koja su tvoja prava. Sajt ne koristi kolačiće i ne prati posetioce."
+  crumbs={crumbs}
+>
+  <PageHead crumbs={crumbs} eyebrow="Privatnost" tone="blue" title="Politika privatnosti" lead="Kratko: sajt ne koristi kolačiće i ne prati te. Za zakazivanje tražim samo ono bez čega ne mogu da ti odgovorim." />
+  <section class="section section--tight" style="padding-top:0">
+    <div class="container">
+      <div class="prose">
+        <p><em>Nacrt. Pre objave ga proverava pravnik ili knjigovođa, u skladu sa Zakonom o zaštiti podataka o ličnosti.</em></p>
+        <h2>Ko obrađuje podatke</h2>
+        <p>Rukovalac podacima je {person.name}{/* TODO: oblik registracije i adresa */}. Kontakt za sve što se tiče privatnosti: <a href={`mailto:${person.email}`}>{person.email}</a>.</p>
+        <h2>Šta sajt prikuplja</h2>
+        <p>Sajt ne koristi kolačiće, ne koristi piksele za oglase i ne prati te od stranice do stranice. Za statistiku poseta koristim analitiku bez kolačića (Cloudflare Web Analytics), koja broji posete bez ličnih podataka i bez praćenja kroz druge sajtove.</p>
+        <p>Ako dugmetom izabereš svetlu ili tamnu temu, taj izbor se pamti u tvom browseru (lokalno skladište). Ne šalje se nikuda i služi samo da sajt sledeći put izgleda po tvom izboru.</p>
+        <h2>Podaci za zakazivanje</h2>
+        <p>Kad zakažeš termin ili mi pišeš, obrađujem samo ono što mi pošalješ: ime, email, odgovor na pitanje „Odakle znaš za mene?“ i, ako želiš, jednu rečenicu o razlogu javljanja. Kroz formu ne tražim zdravstvene podatke ni dijagnozu.</p>
+        <p>Pravni osnov je preduzimanje radnji pre zaključenja ugovora na tvoj zahtev, odnosno tvoj pristanak.</p>
+        <h2>Servisi koje koristim</h2>
+        <ul>
+          <li><strong>Hosting sajta:</strong> Cloudflare.</li>
+          <li><strong>Kalendar za zakazivanje:</strong> {/* TODO */}Cal.com ili Calendly, kad bude izabran.</li>
+          <li><strong>Kontakt forma:</strong> {/* TODO */}servis koji poruku iz forme prosleđuje na moj email, kad bude izabran.</li>
+          <li><strong>Email:</strong> {/* TODO */}provajder email adrese na domenu.</li>
+          <li><strong>Video poziv:</strong> {/* TODO */}platforma koju koristim za seanse.</li>
+        </ul>
+        <h2>Koliko dugo čuvam podatke</h2>
+        <p>{/* TODO */}Podatke iz upita koji nisu doveli do saradnje brišem u roku od šest meseci. Podaci o saradnji čuvaju se onoliko koliko propisi i pravila struke zahtevaju.</p>
+        <h2>Tvoja prava</h2>
+        <p>Imaš pravo da tražiš pristup svojim podacima, ispravku, brisanje, ograničenje obrade i prenos podataka, kao i da povučeš pristanak. Piši na <a href={`mailto:${person.email}`}>{person.email}</a>. Ako misliš da su ti prava povređena, možeš se obratiti Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti (<a href="https://www.poverenik.rs" rel="noopener">poverenik.rs</a>).</p>
+        <h2>Poverljivost terapije</h2>
+        <p>Sve o čemu razgovaramo na seansama je poverljivo, po etičkom kodeksu psihologa. Seanse se ne snimaju. Granice poverljivosti su opisane u <a href="/uslovi/#poverljivost">uslovima saradnje</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

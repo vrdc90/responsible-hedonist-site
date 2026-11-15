@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Asterisk from '../components/Asterisk.astro';
+import Portrait from '../components/Portrait.astro';
+import Statement from '../components/Statement.astro';
+import BookingBanner from '../components/BookingBanner.astro';
+import Sources from '../components/Sources.astro';
+import { getSources } from '../data/izvori';
+import { person, practice } from '../data/practice';
+import { ids } from '../lib/schema';
+
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'O meni', href: '/o-meni/' }];
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
+const sources = getSources(['ellis-dryden-1997']);
+const nije = ['mesto za instant motivaciju', 'positive thinking space', 'izbegavanje negativnih osećanja'];
+const jeste = ['zadovoljstvo uz prihvatanje odgovornosti', 'mesto za preispitivanje', 'mesto za rast'];
+---
+<Base
+  title={`O meni: ${person.name}, psiholog`}
+  description={`${person.name}, ${person.title}. Obrazovanje, REBT edukacija, rad pod supervizijom i priča iza imena Responsible Hedonist.`}
+  crumbs={crumbs}
+  pageType="ProfilePage"
+  ogType="profile"
+  mainEntity={ids.person}
+  sources={sources}
+>
+  <PageHead crumbs={crumbs} eyebrow="O meni" tone="red" title={`Ja sam ${person.givenName}`} />
+
+  <section class="section section--tight" style="padding-top:0">
+    <div class="container editorial">
+      <div class="editorial__head"><Portrait eager /></div>
+      <div class="editorial__body stack">
+        <p class="lead">Ja sam {person.name}, {person.title}. Radim online, na srpskom, sa odraslima u Srbiji i u <a class="rh-link" href="/terapija-na-srpskom-u-inostranstvu/">inostranstvu</a>, po principima racionalno-emotivne bihejvioralne terapije (REBT).</p>
+        <p class="muted">{/* TODO Jelena: 3–4 rečenice o tome zašto radiš ovo, u svom glasu. */}Na Instagramu pišem o stvarima o kojima ljudi retko pričaju naglas: o perfekcionizmu, odlaganju, granicama i o tome koliko smo strogi prema sebi. Na terapiji radim isto, samo detaljnije i u tvom tempu.</p>
+        <ul class="rh-creds">
+          {person.education.map((e) => (
+            <li><Asterisk tone="blue" size={14} /><span><strong>{cap(person.title)}</strong>, {e.institution}{e.year ? `, ${e.year}.` : ''}</span></li>
+          ))}
+          <li><Asterisk tone="red" size={14} /><span><strong>{person.rebtTraining.program}</strong>{person.rebtTraining.association ? `, ${person.rebtTraining.association}` : ''}{person.rebtTraining.since ? `, od ${person.rebtTraining.since}.` : ''}</span></li>
+          <li><Asterisk tone="blue" size={14} /><span><strong>Status:</strong> {person.status}</span></li>
+          {person.memberships.map((m) => <li><Asterisk tone="red" size={14} /><span>{m.name}</span></li>)}
+          <li><Asterisk tone="blue" size={14} /><span><strong>Gde me još možeš naći:</strong> <a class="rh-link" href={person.instagram} rel="me noopener">Instagram {person.instagramHandle}</a>{person.profiles.map((p) => <>, <a class="rh-link" href={p.url} rel="me noopener">{p.name}</a></>)}</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" aria-labelledby="supervizija-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="sky">Supervizija</Eyebrow>
+        <h2 id="supervizija-naslov" class="h2">Prednost, a ne fusnota</h2>
+      </div>
+      <div class="editorial__body prose">
+        <p>Kao psihoterapeut u edukaciji, o svom radu redovno razgovaram sa iskusnim supervizorom. Supervizor ne zna ko si; razgovaramo o tome kako radim, bez podataka po kojima bi te neko prepoznao.</p>
+        <p>To je standard dobre prakse u psihoterapiji i dodatna sigurnost za tebe: o tvom procesu razmišljaju dva stručnjaka, a ne jedan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ime-naslov">
+    <div class="container editorial">
+      <div class="editorial__head editorial__head--sticky stack">
+        <Eyebrow tone="lime">Zašto „responsible hedonist“</Eyebrow>
+        <h2 id="ime-naslov" class="h2">Uživaj sada, ali ne na račun sebe sutra</h2>
+      </div>
+      <div class="editorial__body prose">
+        <p>Albert Elis, osnivač REBT-a, pisao je o <a href="/rebt-pojmovi/#dugorocni-hedonizam">dugoročnom hedonizmu</a> (long-range hedonism). Ideja je jednostavna: zdravo je tražiti zadovoljstvo i uživati u životu, ali tako da današnje uživanje ne krade od tebe sutrašnjeg.</p>
+        <p>Odatle i ime. „Hedonist“ jer verujem da život ne treba samo izdržati, nego i uživati u njemu. „Responsible“ jer uživanje ide uz odgovornost prema sebi: prema svom zdravlju, odnosima i ciljevima.</p>
+        <p>Na mom Instagramu to zvuči ovako:</p>
+        <ul style="list-style:none;padding:0">
+          {nije.map((x) => <li><strong>Nije</strong> {x}.</li>)}
+          {jeste.map((x) => <li><mark class="rh-hl"><strong>Jeste</strong></mark> {x}.</li>)}
+        </ul>
+        <Sources sources={sources} headingLevel="h3" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" aria-label="Misao">
+    <div class="container">
+      <Statement eyebrow="Mindset" left="Granica" right="sebičnost" tone="lavender" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="kako-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="blue">Kako radim</Eyebrow>
+        <h2 id="kako-naslov" class="h2">Ukratko</h2>
+      </div>
+      <div class="editorial__body prose">
+        <ul>
+          <li>Online, video pozivom, na srpskom.</li>
+          <li>Seanse od {practice.sessionMinutes} minuta, {practice.rhythm}.</li>
+          <li>Radim sa: {practice.worksWith}.</li>
+          <li>Ne postavljam dijagnoze i ne obećavam ishode. Kad treba, upućujem na psihijatra.</li>
+          <li>Ne objavljujem utiske klijenata. Etika psihologa ne dozvoljava da ih tražim od ljudi sa kojima radim, a poverenje gradim jasnim opisom rada i cene.</li>
+        </ul>
+        <p><a href="/kako-radim/">Više o tome kako izgleda terapija</a></p>
+      </div>
+    </div>
+  </section>
+
+  <BookingBanner />
+</Base>

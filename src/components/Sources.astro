@@ -1,0 +1,19 @@
+---
+import type { Source } from '../data/izvori';
+interface Props { sources: Source[]; headingLevel?: 'h2' | 'h3' }
+const { sources, headingLevel: H = 'h2' } = Astro.props;
+---
+{sources.length > 0 && (
+  <section class="rh-sources" aria-labelledby="izvori-naslov">
+    <H id="izvori-naslov" class="rh-sources__title">Izvori</H>
+    <ol class="rh-sources__list">
+      {sources.map((s) => (
+        <li>
+          <span class="rh-sources__note">{s.note}</span>{' '}
+          <cite>{s.cite}</cite>
+          {s.url && <>{' '}<a class="rh-link" href={s.url} rel="noopener">{s.url.replace('https://', '')}</a></>}
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

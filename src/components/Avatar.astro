@@ -1,0 +1,11 @@
+---
+/** Mali okrugli portret uz ime; dok nema fotografije, zvezdica na lavanda krugu. */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Asterisk from './Asterisk.astro';
+const found = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait.{jpg,jpeg,png,webp}', { eager: true });
+const portrait = Object.values(found)[0]?.default;
+---
+<span class="rh-avatar" aria-hidden="true">
+  {portrait ? <Image src={portrait} alt="" width={104} height={104} fit="cover" position="top" loading="eager" /> : <Asterisk tone="blue" size={20} />}
+</span>

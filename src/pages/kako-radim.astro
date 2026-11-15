@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Faq from '../components/Faq.astro';
+import BookingBanner from '../components/BookingBanner.astro';
+import Sources from '../components/Sources.astro';
+import { getSources } from '../data/izvori';
+import { practice } from '../data/practice';
+
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Kako radim', href: '/kako-radim/' }];
+const sources = getSources(['ellis-1962', 'david-2018', 'fernandez-2021']);
+const faq = [
+  { q: 'Šta je REBT?', a: '<p>REBT je racionalno-emotivna bihejvioralna terapija. Razvio ju je psiholog Albert Elis 1950-ih i smatra se prvim oblikom kognitivno-bihejvioralne terapije. Polazi od toga da emocije ne izazivaju same situacije, nego kruta uverenja o njima, i da se ta uverenja mogu promeniti.</p>' },
+  { q: 'Da li je REBT isto što i KBT?', a: '<p>REBT je deo porodice kognitivno-bihejvioralnih terapija (KBT) i njen najstariji član. Sve one polaze od veze između misli, osećanja i ponašanja. REBT se izdvaja po tome što posebno gleda krute zahteve („moram“, „ne smem“) i uči bezuslovnom prihvatanju sebe. U Srbiji se edukacija često zove RE&amp;KBT ili RE&amp;CBT, racionalno-emotivna i kognitivno-bihejvioralna terapija.</p>' },
+  { q: 'Po čemu se REBT razlikuje od drugih terapija?', a: '<p>Po tome što je konkretna i aktivna. Ne pričamo samo o tome kako se osećaš, nego tražimo tačnu misao koja to osećanje pravi i proveravamo je. Fokus je na sadašnjosti, a prošlost gledamo onoliko koliko objašnjava ono što ti se dešava danas.</p>' },
+  { q: 'Da li moram da radim zadatke između seansi?', a: '<p>Ne moraš, ali preporučujem. Zadaci su mali: da zapišeš misao, da probaš nešto što izbegavaš. Najviše promena se desi baš između seansi, u stvarnom životu.</p>' },
+  { q: 'Šta ako mi REBT ne odgovara?', a: '<p>To je legitiman ishod prvog razgovora. Ako vidim da bi ti više odgovarao drugi pristup ili drugi stručnjak, reći ću ti i pomoći da nađeš smer.</p>' },
+];
+---
+<Base
+  title="Kako izgleda REBT terapija online"
+  description="Kako izgleda online REBT terapija na srpskom: ABC model, tok seanse, zadaci između seansi, koliko traje terapija i šta je supervizija. Jednostavnim jezikom."
+  crumbs={crumbs}
+  faq={faq}
+  sources={sources}
+  about={['REBT', 'Kognitivno-bihejvioralna terapija']}
+>
+  <PageHead
+    crumbs={crumbs}
+    eyebrow="Kako radim"
+    tone="lavender"
+    title="Kako izgleda REBT terapija"
+    lead="REBT je racionalno-emotivna bihejvioralna terapija, prvi oblik kognitivno-bihejvioralne terapije (KBT). Konkretna je: tražimo tačnu misao iza onoga što te muči, proveravamo je i menjamo, uz male zadatke između seansi. Radim online, video pozivom, na srpskom."
+  />
+
+  <section class="section section--tight" style="padding-top:0">
+    <div class="container editorial">
+      <div class="editorial__head editorial__head--sticky stack">
+        <Eyebrow tone="lime">Osnovna ideja</Eyebrow>
+        <h2 class="h2">Ne uznemiravaju nas stvari, nego ono što o njima mislimo</h2>
+      </div>
+      <div class="editorial__body prose">
+        <p>Tu ideju je psiholog Albert Elis pretočio u <a href="/rebt-pojmovi/#abc-model">ABC model</a>. A je događaj, B je uverenje o tom događaju, a C je ono što osećaš i radiš posle. Većina nas misli da A pravi C. REBT kaže da između njih uvek stoji B.</p>
+        <p>Kad je B kruto, sa „moram“, „ne smem“ i „ne mogu da podnesem“, C je jako i teško: anksioznost, krivica, bes, odlaganje. Kad je B fleksibilno, sa „bilo bi lepo“ i „ne mora“, C je i dalje neprijatno, ali podnošljivo i korisno. To je razlika između <a href="/rebt-pojmovi/#zdrave-i-nezdrave-negativne-emocije">zdravih i nezdravih negativnih emocija</a>.</p>
+        <div class="rh-pair">
+          <p class="rh-pair__old"><span class="rh-sr">Kruto: </span><s>„Ne smem da pogrešim.“</s></p>
+          <p class="rh-pair__new"><span class="rh-sr">Fleksibilno: </span><mark class="rh-hl">Bilo bi mi drago</mark> da ne pogrešim. Ako pogrešim, to će biti neprijatno, i podneću to.</p>
+        </div>
+        <p>Cilj terapije nije da postaneš neko ko ništa ne oseća. Cilj je da emocije budu srazmerne situaciji i da ti pomažu, a ne da te koče.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" aria-labelledby="tok-naslov">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="sky">Tok rada</Eyebrow>
+        <h2 id="tok-naslov" class="h2">Od prve poruke do redovnog rada</h2>
+      </div>
+      <ProcessSteps steps={[
+        { title: 'Prvi razgovor', text: 'Pričamo o tome šta te muči i šta želiš da promeniš. Ja ti kažem kako radim, a ti procenjuješ da li ti to odgovara.' },
+        { title: 'Zajednički cilj', text: 'Biramo jednu ili dve stvari na kojima radimo prvo. Konkretno, na primer: „da mogu da pošaljem mejl bez sat vremena proveravanja“.' },
+        { title: 'Seanse i zadaci', text: `Seanse traju ${practice.sessionMinutes} minuta, ${practice.rhythm}. Između njih probaš male korake u stvarnom životu.` },
+      ]} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="seansa-naslov">
+    <div class="container editorial">
+      <div class="editorial__head editorial__head--sticky stack">
+        <Eyebrow tone="red">Jedna seansa</Eyebrow>
+        <h2 id="seansa-naslov" class="h2">Šta se dešava u {practice.sessionMinutes} minuta</h2>
+      </div>
+      <div class="editorial__body prose">
+        <ol>
+          <li><strong>Kako je bilo od prošlog puta.</strong> Šta se desilo, kako je prošao zadatak, šta je bilo teško.</li>
+          <li><strong>Jedna konkretna situacija.</strong> Biramo jednu skorašnju situaciju i rastavljamo je na A, B i C.</li>
+          <li><strong>Provera uverenja.</strong> Postavljamo tri pitanja: da li je tačno, da li je logično i da li ti pomaže. To je <a href="/rebt-pojmovi/#disputiranje">disputiranje</a>.</li>
+          <li><strong>Nova misao.</strong> Formulišemo fleksibilnije uverenje rečima koje zvuče kao ti.</li>
+          <li><strong>Zadatak do sledećeg puta.</strong> Mali, izvodljiv i dogovoren zajedno.</li>
+        </ol>
+        <h3>Online, a ne „online verzija“</h3>
+        <p>Seanse su video pozivom. {practice.video[0].toUpperCase() + practice.video.slice(1)}. Treba ti mirno mesto, slušalice i stabilan internet. Meta-analiza koja je poredila psihoterapiju preko video poziva sa radom uživo nije našla značajnu razliku u rezultatima, a kognitivno-bihejvioralni pristupi su se pokazali posebno dobro.</p>
+        <h3>Koliko traje terapija</h3>
+        <p>Zavisi od toga šta te muči i koliko dugo. Često je to nekoliko meseci. Ne obećavam broj seansi ni ishod, jer to niko pošten ne može. Usput proveravamo šta se menja i dogovaramo se da li nastavljamo, proređujemo ili završavamo.</p>
+        <h3>Supervizija</h3>
+        <p>O svom radu redovno razgovaram sa iskusnim supervizorom, bez podataka po kojima bi neko mogao da te prepozna. To je standard dobre prakse u psihoterapiji i dodatna sigurnost za tebe.</p>
+        <h3>Sa čim ne radim</h3>
+        <p>Online terapija nije za svaku situaciju. Ne radim sa:</p>
+        <ul>
+          {practice.doesNotWorkWith.map((x) => <li>{x}</li>)}
+        </ul>
+        <p>U tim slučajevima je prvi korak psihijatar ili hitna pomoć, a terapija može da dođe posle ili uz to.</p>
+        <Sources sources={sources} headingLevel="h3" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" aria-labelledby="faq-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="lavender">Česta pitanja</Eyebrow>
+        <h2 id="faq-naslov" class="h2">O REBT-u</h2>
+        <p class="muted">Više pojmova objašnjenih jednostavno: <a class="rh-link" href="/rebt-pojmovi/">REBT pojmovi na srpskom</a>.</p>
+      </div>
+      <div class="editorial__body"><Faq items={faq} /></div>
+    </div>
+  </section>
+
+  <BookingBanner />
+</Base>

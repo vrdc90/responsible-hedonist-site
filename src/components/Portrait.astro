@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Asterisk from './Asterisk.astro';
+import { person } from '../data/practice';
+interface Props { eager?: boolean }
+const { eager = false } = Astro.props;
+// Portret se automatski koristi čim se doda src/assets/portrait.(jpg|png|webp).
+const found = import.meta.glob<{ default: ImageMetadata }>('../assets/portrait.{jpg,jpeg,png,webp}', { eager: true });
+const portrait = Object.values(found)[0]?.default;
+---
+<div class="rh-portrait">
+  <figure class="rh-portrait__media">
+    {portrait ? (
+      <Image src={portrait} alt={`${person.name}, psiholog`} width={880} height={1100} widths={[440, 660, 880]} sizes="(min-width: 900px) 440px, 90vw" loading={eager ? 'eager' : 'lazy'} />
+    ) : (
+      <div class="rh-portrait__placeholder"><Asterisk tone="lavender" size={40} /><span class="small">Ovde ide Jelenin portret, 4:5</span></div>
+    )}
+  </figure>
+  <span class="rh-portrait__star rh-portrait__star--a"><Asterisk tone="lime" size={36} /></span>
+  <span class="rh-portrait__star rh-portrait__star--b"><Asterisk tone="sky" size={28} /></span>
+  <span class="rh-portrait__star rh-portrait__star--c"><Asterisk tone="red" size={20} /></span>
+</div>

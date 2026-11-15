@@ -1,0 +1,31 @@
+---
+import CrisisNote from './CrisisNote.astro';
+import { footerNav } from '../data/nav';
+import { person, site } from '../data/practice';
+const year = new Date().getFullYear();
+---
+<footer class="rh-footer">
+  <div class="container">
+    <div class="rh-footer__grid">
+      <div>
+        <a class="rh-footer__logo" href="/" aria-label={`${site.brand}, početna`}><img src="/logo.svg" alt="" width="140" height="39" loading="lazy" /></a>
+        <p class="rh-footer__who"><strong>{person.name}</strong><br />{person.credentialsShort}<br />Online REBT terapija na srpskom</p>
+        <p class="rh-footer__contact">
+          <a href={`mailto:${person.email}`}>{person.email}</a><br />
+          <a href={person.instagram} rel="me noopener">Instagram {person.instagramHandle}</a>
+          {person.profiles.map((p) => <><br /><a href={p.url} rel="me noopener">{p.name}</a></>)}
+        </p>
+      </div>
+      <nav class="rh-footer__nav" aria-label="Stranice">
+        <ul>
+          {footerNav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+      <CrisisNote landmark />
+    </div>
+    <div class="rh-footer__base">
+      <span>© {site.since === year ? year : `${site.since}–${year}`} {person.name}</span>
+      <span>Ovaj sajt ne koristi kolačiće i ne prati te.</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,239 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Asterisk from '../components/Asterisk.astro';
+import Avatar from '../components/Avatar.astro';
+import Reframe from '../components/Reframe.astro';
+import TopicList from '../components/TopicList.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import Portrait from '../components/Portrait.astro';
+import Statement from '../components/Statement.astro';
+import Faq from '../components/Faq.astro';
+import InstagramGrid from '../components/InstagramGrid.astro';
+import BookingBanner from '../components/BookingBanner.astro';
+import { person, practice, priceLabel, crisis } from '../data/practice';
+import { getAllTopics, isLive } from '../lib/content';
+import { serviceNode } from '../lib/schema';
+
+const topics = await getAllTopics();
+const topicItems = topics.map((t) => ({
+  quote: t.data.hook,
+  label: isLive(t.data.draft) ? `${t.data.name}: kako REBT gleda na to` : `${t.data.name} · tekst uskoro`,
+  href: isLive(t.data.draft) ? `/teme/${t.id}/` : undefined,
+}));
+
+const faq = [
+  {
+    q: 'Kako izgleda online seansa?',
+    a: `<p>Video poziv od ${practice.sessionMinutes} minuta. Link stiže emailom i ništa ne moraš da instaliraš. Treba ti mirno mesto, slušalice i internet koji ne seče. Razgovaramo kao uživo, samo što ti biraš sobu.</p>`,
+  },
+  {
+    q: 'Koliko traje terapija?',
+    a: `<p>Zavisi od toga šta te muči. Često je to nekoliko meseci, ${practice.rhythm}. Ne obećavam broj seansi. Usput zajedno proveravamo šta se menja i da li ima smisla da nastavimo.</p>`,
+  },
+  {
+    q: 'Da li je razgovor poverljiv?',
+    a: '<p>Da. Sve što kažeš ostaje među nama, po etičkom kodeksu psihologa. O radu razgovaram sa supervizorom, ali bez podataka po kojima bi neko mogao da te prepozna. Poverljivost ima zakonske izuzetke, na primer kad je nečiji život u neposrednoj opasnosti, i o tome ti govorim otvoreno na prvom razgovoru.</p>',
+  },
+  {
+    q: 'Šta ako ne znam šta mi je?',
+    a: '<p>Ne moraš da znaš. Mnogi dođu sa „nešto nije kako treba“. Prvi razgovor služi baš tome da zajedno vidimo šta te muči i da li ti ovakav rad odgovara.</p>',
+  },
+  {
+    q: 'Šta ako sam u krizi?',
+    a: `<p>Online terapija nije hitna služba. Ako si u neposrednoj opasnosti, pozovi <a href="tel:${crisis.lines[0].tel}">${crisis.lines[0].number}</a>. Za razgovor odmah je tu Centar Srce na <a href="tel:${crisis.lines[1].tel}">${crisis.lines[1].number.replace(/ /g, '\u00a0')}</a>, svaki dan od 14 do 23 h, besplatno. Van Srbije pozovi lokalni broj za hitne slučajeve, u EU <a href="tel:112">112</a>.</p>`,
+  },
+];
+---
+<Base
+  title="Online REBT terapija na srpskom | Jelena Marjanović, psiholog"
+  fullTitle
+  description="Online REBT terapija na srpskom za anksioznost, perfekcionizam, odlaganje i ljutnju. Video poziv, 50 minuta. Jelena Marjanović, psiholog."
+  schema={[serviceNode()]}
+  faq={faq}
+  preloadSerif
+>
+  <!-- Hero -->
+  <section class="rh-hero" aria-labelledby="hero-naslov">
+    <div class="container rh-hero__grid">
+      <div class="rh-hero__copy">
+        <Eyebrow tone="lime">Online REBT terapija · na srpskom</Eyebrow>
+        <h1 id="hero-naslov" class="rh-hero__title display">Previše „moram“ za jednu glavu.</h1>
+        <p class="rh-hero__lead lead">Online REBT terapija na srpskom, za anksioznost, perfekcionizam, odlaganje i ljutnju. Radimo na tome da strogi zahtevi prema sebi postanu želje sa kojima može da se živi.</p>
+        <div class="rh-hero__actions">
+          <Button href="/zakazivanje/" star>Zakaži prvi razgovor</Button>
+          <Button href="/kako-radim/" variant="link">Kako izgleda terapija</Button>
+        </div>
+        <p class="rh-hero__note small">{practice.introCall.offered ? `Uvodni razgovor od ${practice.introCall.minutes} minuta${practice.introCall.free ? ' je besplatan' : ''}. Bez obaveze da nastaviš.` : 'Bez obaveze da nastaviš posle prvog razgovora.'}</p>
+        <div class="rh-hero__meta">
+          <div class="rh-who">
+            <Avatar />
+            <p><strong>{person.name}</strong>{person.credentialsShort}</p>
+          </div>
+          <ul class="rh-facts rh-facts--plain">
+            <li><Asterisk tone="blue" size={12} /><strong>Online</strong>, video poziv</li>
+            <li><Asterisk tone="red" size={12} />Na <strong>srpskom</strong>, iz <a class="rh-link" href="/terapija-na-srpskom-u-inostranstvu/">Srbije i inostranstva</a></li>
+            <li><Asterisk tone="blue" size={12} /><strong>{practice.sessionMinutes} minuta</strong>, cena {priceLabel()}</li>
+          </ul>
+        </div>
+      </div>
+      <Reframe pairs={[
+        { from: 'Moram da uspem.', mark: 'Želim', rest: ' da uspem. Ne moram.' },
+        { from: 'Ne smem da pogrešim.', mark: 'Radije ne bih', rest: ' da pogrešim. Ali smem.' },
+        { from: 'Svi moraju da me vole.', mark: 'Lepo je', rest: ' kad me vole. Ne moraju svi.' },
+      ]} />
+    </div>
+  </section>
+
+  <!-- Zvuči poznato? -->
+  <section class="section section--stone" aria-labelledby="poznato-naslov">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="sky">Zvuči poznato?</Eyebrow>
+        <h2 id="poznato-naslov" class="h2">Sa čim ljudi najčešće dolaze</h2>
+        <p class="lead muted">Za terapiju ti ne treba dijagnoza. Dovoljno je da se prepoznaš u nekoj od ovih rečenica.</p>
+      </div>
+      <TopicList items={topicItems} />
+    </div>
+  </section>
+
+  <!-- Kako REBT gleda na to -->
+  <section class="section" aria-labelledby="abc-naslov">
+    <div class="container editorial">
+      <div class="editorial__head editorial__head--sticky stack">
+        <Eyebrow tone="lavender">Kako REBT gleda na to</Eyebrow>
+        <h2 id="abc-naslov" class="h2">Ne menjamo šefa. Menjamo B.</h2>
+        <p class="muted">REBT, racionalno-emotivna bihejvioralna terapija, prvi je oblik kognitivno-bihejvioralne terapije (KBT). Polazi od jednostavne ideje: ne uznemiravaju nas same stvari, nego ono što o njima mislimo. To se zove ABC model.</p>
+        <p><a class="rh-link" href="/kako-radim/">Više o tome kako radim</a></p>
+      </div>
+      <div class="editorial__body">
+        <ol class="rh-abc">
+          <li class="rh-abc__row">
+            <span class="rh-abc__letter">A</span>
+            <div><span class="rh-abc__name eyebrow">Događaj</span><p class="rh-abc__text">Šef ti vrati izveštaj sa ispravkama.</p></div>
+          </li>
+          <li class="rh-abc__row">
+            <span class="rh-abc__letter">B</span>
+            <div><span class="rh-abc__name eyebrow">Uverenje</span><p class="rh-abc__text">„Moram sve da uradim savršeno, inače ne valjam.“</p></div>
+          </li>
+          <li class="rh-abc__row">
+            <span class="rh-abc__letter">C</span>
+            <div><span class="rh-abc__name eyebrow">Posledica</span><p class="rh-abc__text">Anksioznost, noć bez sna i odlaganje sledećeg zadatka.</p></div>
+          </li>
+        </ol>
+        <div class="rh-pair">
+          <p class="rh-pair__old"><span class="rh-sr">Staro B: </span><s>„Moram sve da uradim savršeno, inače ne valjam.“</s></p>
+          <p class="rh-pair__new"><span class="rh-sr">Novo B: </span><mark class="rh-hl">Bilo bi lepo</mark> da je prošlo bez ispravki, ali ispravke ne govore koliko vredim.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kako izgleda saradnja -->
+  <section class="section section--stone" aria-labelledby="koraci-naslov">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="lime">Kako izgleda saradnja</Eyebrow>
+        <h2 id="koraci-naslov" class="h2">Tri koraka, bez iznenađenja</h2>
+      </div>
+      <ProcessSteps steps={[
+        { title: 'Javiš se ili zakažeš termin', text: `Izabereš termin u kalendaru ili mi pišeš. ${practice.responseTime}` },
+        { title: 'Prvi razgovor', text: 'Pričamo o tome šta te muči, šta želiš da promeniš i da li ti ovakav rad odgovara. Bez obaveze da nastaviš.' },
+        { title: 'Seanse u dogovorenom ritmu', text: `Video pozivi od ${practice.sessionMinutes} minuta, ${practice.rhythm}, i mali zadaci između njih, jer se najviše menja baš tada.` },
+      ]} />
+    </div>
+  </section>
+
+  <!-- Ja sam Jelena -->
+  <section class="section" aria-labelledby="jelena-naslov">
+    <div class="container editorial" style="align-items:center">
+      <div class="editorial__head"><Portrait /></div>
+      <div class="editorial__body stack">
+        <Eyebrow tone="red">Ja sam Jelena</Eyebrow>
+        <h2 id="jelena-naslov" class="h2">Pišem kao čovek, ne kao brošura. Tako i radim.</h2>
+        <p class="lead muted">Ja sam {person.name}, {person.title}. Radim online, na srpskom, po principima REBT-a: konkretno, sa radom na tačno određenim mislima i malim zadacima između seansi. Bez propovedanja i bez obećanja da će sve biti savršeno.</p>
+        <p>O svom radu redovno razgovaram sa iskusnim supervizorom. To je standard dobre prakse i dodatna sigurnost za tebe.</p>
+        <ul class="rh-creds">
+          <li><Asterisk tone="blue" size={14} /><span>{person.title[0].toUpperCase() + person.title.slice(1)}, {person.education[0].institution}</span></li>
+          <li><Asterisk tone="red" size={14} /><span>{person.status[0].toUpperCase() + person.status.slice(1)}</span></li>
+          <li><Asterisk tone="blue" size={14} /><span>Instagram <a class="rh-link" href={person.instagram} rel="me noopener">{person.instagramHandle}</a></span></li>
+        </ul>
+        <p><Button href="/o-meni/" variant="link">Više o meni i edukaciji</Button></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Format i cena -->
+  <section class="section section--stone" aria-labelledby="cena-naslov">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="sky">Format i cena</Eyebrow>
+        <h2 id="cena-naslov" class="h2">Šta dobijaš i koliko košta</h2>
+      </div>
+      <div class="rh-cards">
+        {practice.introCall.offered && (
+          <article class="rh-card">
+            <h3 class="rh-card__title h3">Uvodni razgovor</h3>
+            <div class="rh-card__body"><p>Kratak video poziv da se upoznamo i vidimo da li ti ovakav rad odgovara. Bez pripreme i bez obaveze.</p></div>
+            <dl class="rh-card__facts">
+              <div class="rh-card__fact"><dt class="small">Trajanje</dt><dd>{practice.introCall.minutes} minuta</dd></div>
+              <div class="rh-card__fact"><dt class="small">Cena</dt><dd>{practice.introCall.free ? 'besplatno' : priceLabel()}</dd></div>
+            </dl>
+            <div class="rh-card__action"><Button href="/zakazivanje/" variant="secondary">Zakaži uvodni razgovor</Button></div>
+          </article>
+        )}
+        <article class="rh-card rh-card--featured">
+          <h3 class="rh-card__title h3">Individualna seansa, online</h3>
+          <div class="rh-card__body"><p>REBT seansa preko video poziva, na srpskom. Radimo na konkretnim situacijama i mislima, uz male zadatke do sledećeg puta.</p></div>
+          <dl class="rh-card__facts">
+            <div class="rh-card__fact"><dt class="small">Trajanje</dt><dd>{practice.sessionMinutes} minuta</dd></div>
+            <div class="rh-card__fact"><dt class="small">Cena</dt><dd>{priceLabel()}</dd></div>
+            <div class="rh-card__fact"><dt class="small">Otkazivanje</dt><dd>do 24 h pre termina</dd></div>
+          </dl>
+          <div class="rh-card__action"><Button href="/zakazivanje/" star>Zakaži termin</Button></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Misao sa Instagrama -->
+  <section class="section" aria-label="Misao sa Instagrama">
+    <div class="container">
+      <Statement eyebrow="Ovo nije isto" left="Samopouzdanje" right="samoprihvatanje" note="Jedno zavisi od toga kako ti ide. Drugo ne mora." tone="lime" />
+    </div>
+  </section>
+
+  <!-- Česta pitanja -->
+  <section class="section section--stone" aria-labelledby="faq-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="lavender">Česta pitanja</Eyebrow>
+        <h2 id="faq-naslov" class="h2">Šta ako…?</h2>
+        <p class="muted">Ako tvoje pitanje nije ovde, piši mi. {practice.responseTime}</p>
+      </div>
+      <div class="editorial__body"><Faq items={faq} /></div>
+    </div>
+  </section>
+
+  <!-- Sa Instagrama -->
+  <section class="section" aria-labelledby="ig-naslov">
+    <div class="container">
+      <div class="section-head" style="flex-direction:row;flex-wrap:wrap;align-items:end;justify-content:space-between;max-width:none;gap:var(--space-6)">
+        <div class="stack" style="max-width:640px">
+          <Eyebrow tone="lime">Sa Instagrama</Eyebrow>
+          <h2 id="ig-naslov" class="h2">Kratko, direktno i ponekad smešno</h2>
+        </div>
+        <Button href={person.instagram} variant="secondary" rel="me noopener">Prati {person.instagramHandle}</Button>
+      </div>
+      <InstagramGrid posts={[
+        { tone: 'night', left: 'Granica', right: 'sebičnost' },
+        { tone: 'lime', text: 'Ni bolje neće biti idealno.', note: '*I ne mora.' },
+        { tone: 'lavender', eyebrow: 'Mindset:', text: 'Odmaraćeš kada umreš.' },
+        { tone: 'sky', text: 'Ne privlače te uvek „pogrešni tipovi ljudi“.', note: 'Ponekad te privlači poznat osećaj.' },
+      ]} />
+    </div>
+  </section>
+
+  <BookingBanner />
+</Base>

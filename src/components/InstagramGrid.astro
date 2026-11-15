@@ -1,0 +1,23 @@
+---
+/**
+ * Pločice u stilu Instagram postova. Statične su (bez embed skripte, bez praćenja):
+ * tekst je na sajtu, a link vodi na profil ili na sam post.
+ */
+import { person } from '../data/practice';
+interface Post { tone: 'lime' | 'lavender' | 'sky' | 'night'; eyebrow?: string; left?: string; right?: string; text?: string; note?: string; href?: string }
+interface Props { posts: Post[] }
+const { posts } = Astro.props;
+---
+<div class="rh-posts">
+  {posts.map((p) => (
+    <a class:list={['rh-post', `rh-post--${p.tone}`]} href={p.href ?? person.instagram} rel="noopener">
+      {p.eyebrow && <p class="rh-post__eyebrow eyebrow">{p.eyebrow}</p>}
+      <p class="rh-post__text">
+        {p.left ? <>{p.left}<br /><span class="rh-sign" aria-hidden="true">≠</span><span class="rh-sr">nije isto što i</span><br />{p.right}</> : p.text}
+      </p>
+      {p.note && <p class="rh-post__note">{p.note}</p>}
+      <span class="rh-post__sig" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="rh-sr">Otvori na Instagramu</span>
+    </a>
+  ))}
+</div>

@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import Asterisk from '../components/Asterisk.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import CrisisNote from '../components/CrisisNote.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faq from '../components/Faq.astro';
+import { person, practice, priceLabel } from '../data/practice';
+import { serviceNode } from '../lib/schema';
+
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Cena i zakazivanje', href: '/zakazivanje/' }];
+const hasCalendar = Boolean(practice.bookingUrl);
+const hasForm = Boolean(practice.form.endpoint) || import.meta.env.DEV;
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
+const mailHref = `mailto:${person.email}?subject=${encodeURIComponent('Prvi razgovor')}`;
+const primaryLabel = hasCalendar ? 'Izaberi termin' : hasForm ? 'Pošalji poruku' : 'Piši za termin';
+const faq = [
+  { q: 'Šta ako moram da otkažem?', a: `<p>${practice.cancellation}</p>` },
+  { q: 'Da li mogu da platim iz inostranstva?', a: `<p>Da. Načini plaćanja su: ${practice.payment.join('; ')}. Detalje dobijaš u emailu sa potvrdom termina.</p>` },
+  { q: 'Šta da pripremim za prvi razgovor?', a: '<p>Ništa posebno. Mirno mesto gde te niko ne prekida, slušalice i stabilan internet. Ako želiš, zapiši par rečenica o tome šta te muči, ali ne moraš.</p>' },
+  { q: 'Šta ako posle prvog razgovora ne želim da nastavim?', a: '<p>To je potpuno u redu i ništa ne moraš da objašnjavaš. Prvi razgovor služi baš tome da proceniš da li ti ovakav rad i ja kao osoba odgovaramo.</p>' },
+];
+---
+<Base
+  title="Cena i zakazivanje online terapije"
+  description={`Cena i zakazivanje online REBT terapije na srpskom: seansa ${practice.sessionMinutes} minuta, cena ${priceLabel()}, plaćanje, otkazivanje i kako izgleda prvi razgovor.`}
+  crumbs={crumbs}
+  schema={[serviceNode()]}
+  faq={faq}
+>
+  <PageHead
+    crumbs={crumbs}
+    eyebrow="Cena i zakazivanje"
+    tone="lime"
+    title="Cena i zakazivanje"
+    lead="Sve što treba da znaš pre nego što zakažeš, na jednom mestu. Od klika do potvrđenog termina su tri koraka i nijedno iznenađenje."
+  />
+
+  <section class="section section--tight" style="padding-top:0" aria-labelledby="uslovi-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="sky">Uslovi</Eyebrow>
+        <h2 id="uslovi-naslov" class="h2">Ukratko</h2>
+        <div class="stack" style="margin-top:var(--space-8)">
+          <Button href="#termin" star>{primaryLabel}</Button>
+          <p class="small muted">{practice.introCall.offered ? `Uvodni razgovor od ${practice.introCall.minutes} minuta${practice.introCall.free ? ' je besplatan' : ''} i bez obaveze. ` : ''}{practice.responseTime}</p>
+        </div>
+      </div>
+      <div class="editorial__body">
+        <table class="rh-table">
+          <tbody>
+            <tr><th scope="row">Format</th><td>Online, video poziv</td></tr>
+            <tr><th scope="row">Jezik</th><td>Srpski</td></tr>
+            <tr><th scope="row">Trajanje seanse</th><td>{practice.sessionMinutes} minuta</td></tr>
+            <tr><th scope="row">Cena seanse</th><td>{priceLabel()}</td></tr>
+            {practice.introCall.offered && <tr><th scope="row">Uvodni razgovor</th><td>{practice.introCall.minutes} minuta, {practice.introCall.free ? 'besplatno' : priceLabel()}</td></tr>}
+            <tr><th scope="row">Ritam</th><td>{cap(practice.rhythm)}</td></tr>
+            <tr><th scope="row">Plaćanje</th><td>{practice.payment.map((p) => <>{cap(p)}<br /></>)}<span class="muted" style="font-weight:400">{practice.paymentWhen}</span></td></tr>
+            <tr><th scope="row">Otkazivanje</th><td>{practice.cancellation}</td></tr>
+            <tr><th scope="row">Radim sa</th><td>{cap(practice.worksWith)}</td></tr>
+          </tbody>
+        </table>
+        <p class="small muted" style="margin-top:var(--space-4)">Sve pojedinosti su u <a class="rh-link" href="/uslovi/">uslovima saradnje</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" id="termin" aria-labelledby="termin-naslov" style="scroll-margin-top:var(--header-height)">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="lime">Prvi korak</Eyebrow>
+        <h2 id="termin-naslov" class="h2">{hasCalendar ? 'Izaberi termin' : 'Javi se'}</h2>
+        <p class="lead muted">{hasCalendar ? 'Izaberi termin koji ti odgovara. Potvrda i link za video poziv stižu emailom.' : 'Napiši par reči, a ja ti odgovaram sa predlogom termina.'} Ništa ne moraš da pripremiš.</p>
+      </div>
+
+      {hasCalendar && (
+        <div style="margin-bottom:var(--space-16)">
+          <iframe class="rh-cal" src={practice.bookingUrl} title="Kalendar za zakazivanje" loading="lazy"></iframe>
+          <p class="small muted" style="margin-top:var(--space-3)">Ako se kalendar ne učita, <a class="rh-link" href={practice.bookingUrl} rel="noopener">otvori ga u novom prozoru</a>.</p>
+        </div>
+      )}
+
+      <div class="editorial">
+        <div class="editorial__head" style="grid-column: 1 / span 6">
+          {hasCalendar && <h3 class="h3" style="margin-bottom:var(--space-6)">Radije bi da prvo pišeš?</h3>}
+          {hasForm ? <ContactForm /> : (
+            <div class="stack">
+              <Button href={mailHref} star>Piši mi na email</Button>
+              <p class="muted"><a class="rh-link" href={mailHref}>{person.email}</a><br />Dovoljno je da napišeš ime i jednu rečenicu. {practice.responseTime}</p>
+            </div>
+          )}
+        </div>
+        <div class="editorial__body" style="grid-column: 8 / span 5">
+          <h3 class="h3" style="margin-bottom:var(--space-6)">{hasForm ? 'Ili piši direktno' : 'Drugi načini'}</h3>
+          <ul class="rh-channels">
+            {hasForm && (
+              <li><a href={mailHref}><Icon name="mail" /><span class="rh-channels__text"><strong>{person.email}</strong><span>Email, ako ti je tako lakše</span></span><Icon name="arrow" size={18} /></a></li>
+            )}
+            <li><a href={person.instagramDm} rel="noopener"><Icon name="instagram" /><span class="rh-channels__text"><strong>Poruka na Instagramu</strong><span>{person.instagramHandle}</span></span><Icon name="arrow" size={18} /></a></li>
+          </ul>
+          <p class="small muted" style="margin-top:var(--space-4)">{practice.responseTime} U poruci ne moraš da pišeš detalje. Sve o čemu razgovaramo je poverljivo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="prvi-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="lavender">Prvi razgovor</Eyebrow>
+        <h2 id="prvi-naslov" class="h2">Šta te čeka kad se prvi put čujemo</h2>
+        <p class="muted">Najteži deo je obično poslati prvu poruku. Posle toga je sve jednostavnije nego što izgleda.</p>
+      </div>
+      <div class="editorial__body">
+        <ul class="rh-checks">
+          <li><Asterisk tone="lime" size={20} /><p style="margin:0"><strong>Ja vodim razgovor.</strong><span>Postavljam pitanja, a ti pričaš koliko želiš. Ne moraš da znaš odakle da počneš.</span></p></li>
+          <li><Asterisk tone="sky" size={20} /><p style="margin:0"><strong>Ne moraš da imaš „pravi“ problem.</strong><span>Dovoljno je da te nešto muči ili da želiš nešto da promeniš.</span></p></li>
+          <li><Asterisk tone="lavender" size={20} /><p style="margin:0"><strong>Kažem ti kako bih radila.</strong><span>Na kraju razgovora znaš šta bi bila tema, kako izgleda rad i koliko košta.</span></p></li>
+          <li><Asterisk tone="lime" size={20} /><p style="margin:0"><strong>Odluka je tvoja.</strong><span>Možeš da nastaviš, da razmisliš ili da se više ne javiš. Sve tri opcije su u redu.</span></p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" aria-labelledby="koraci-naslov">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="sky">Kako ide</Eyebrow>
+        <h2 id="koraci-naslov" class="h2">Od poruke do prve seanse</h2>
+      </div>
+      <ProcessSteps steps={[
+        { title: hasCalendar ? 'Izabereš termin' : 'Pišeš mi', text: 'Ostaviš ime i email. Ako želiš, dodaš jednu rečenicu o tome šta te muči. Ne pitam za dijagnozu.' },
+        { title: 'Stiže potvrda', text: 'Email sa linkom za video poziv, uputstvom za plaćanje i kratkim podsetnikom šta da pripremiš.' },
+        { title: 'Prvi razgovor', text: 'Pričamo o tome šta te muči, šta želiš da promeniš i da li ti ovakav rad odgovara. Bez obaveze da nastaviš.' },
+      ]} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="pitanja-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="red">Pre zakazivanja</Eyebrow>
+        <h2 id="pitanja-naslov" class="h2">Česta pitanja o terminima</h2>
+        <div style="margin-top:var(--space-8)"><CrisisNote /></div>
+      </div>
+      <div class="editorial__body"><Faq items={faq} /></div>
+    </div>
+  </section>
+</Base>

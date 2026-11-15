@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Asterisk from '../components/Asterisk.astro';
+import TopicList from '../components/TopicList.astro';
+import Faq from '../components/Faq.astro';
+import BookingBanner from '../components/BookingBanner.astro';
+import { person, practice, priceLabel } from '../data/practice';
+import { serviceNode } from '../lib/schema';
+import { getTopics } from '../lib/content';
+
+const crumbs = [{ name: 'Početna', href: '/' }, { name: 'Terapija na srpskom iz inostranstva', href: '/terapija-na-srpskom-u-inostranstvu/' }];
+const topics = await getTopics();
+const faq = [
+  { q: 'Da li mogu na terapiju na srpskom ako živim u inostranstvu?', a: '<p>Da. Radim online, video pozivom, pa nije važno da li si u Nemačkoj, Austriji, Švajcarskoj, Švedskoj ili negde dalje. Treba ti mirno mesto, slušalice i stabilan internet.</p>' },
+  { q: 'Kako plaćam iz inostranstva?', a: `<p>Načini plaćanja su: ${practice.payment.join('; ')}. Uputstvo stiže u emailu sa potvrdom termina.</p>` },
+  { q: 'Šta je sa vremenskom razlikom?', a: '<p>Termin dogovaramo tako da odgovara tvom danu, a potvrda stiže sa tačnim vremenom. Ako si u vremenskoj zoni daleko od srednjoevropske, napiši mi to u prvoj poruci.</p>' },
+  { q: 'Zašto terapija na maternjem jeziku ako dobro govorim strani?', a: '<p>Zato što se o osećanjima najlakše govori na jeziku na kom smo ih naučili. Na stranom jeziku često tražimo reč, pa stignemo do opisa, ali ne i do onoga što boli. Na srpskom ne moraš da prevodiš ni sebe ni kontekst iz kog dolaziš.</p>' },
+];
+---
+<Base
+  title="Psiholog na srpskom u inostranstvu: online terapija"
+  description="Online terapija na srpskom za ljude koji žive u inostranstvu. REBT, video poziv, plaćanje iz inostranstva i termini usklađeni sa tvojom vremenskom zonom."
+  crumbs={crumbs}
+  schema={[serviceNode()]}
+  faq={faq}
+  about={['Online terapija na srpskom', 'Dijaspora']}
+>
+  <PageHead
+    crumbs={crumbs}
+    eyebrow="Iz inostranstva"
+    tone="sky"
+    title="Terapija na srpskom, gde god da živiš"
+    lead="Radim online, na srpskom, sa ljudima koji žive van Srbije: u Nemačkoj, Austriji, Švajcarskoj, Skandinaviji i dalje. Pristup je REBT, konkretan rad na mislima koje te koče, a seansa je video poziv iz tvoje sobe."
+  >
+    <ul class="rh-facts" style="margin-top:0">
+      <li><Asterisk tone="blue" size={12} /><strong>Online</strong>, video poziv</li>
+      <li><Asterisk tone="red" size={12} />Na <strong>srpskom</strong></li>
+      <li><Asterisk tone="blue" size={12} /><strong>{practice.sessionMinutes} minuta</strong>, cena {priceLabel()}</li>
+    </ul>
+  </PageHead>
+
+  <section class="section section--stone" aria-labelledby="poznato-naslov">
+    <div class="container">
+      <div class="section-head">
+        <Eyebrow tone="lime">Zvuči poznato?</Eyebrow>
+        <h2 id="poznato-naslov" class="h2">Život napolju ima svoje teme</h2>
+        <p class="lead muted">Neke su iste kao kod kuće. Neke dođu tek kad odeš.</p>
+      </div>
+      <TopicList items={[
+        { quote: 'Sve ide kako treba, a ti se i dalje osećaš kao gost.', label: 'Pripadanje i usamljenost' },
+        { quote: 'Javiš se kući i posle svakog poziva osetiš krivicu.', label: 'Krivica prema porodici' },
+        { quote: 'Moraš da uspeš, inače čemu sve ovo.', label: 'Pritisak da se dokažeš' },
+        { quote: 'Ni tamo ni ovde. Ne znaš više gde ti je „kod kuće“.', label: 'Identitet između dve zemlje' },
+      ]} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="jezik-naslov">
+    <div class="container editorial">
+      <div class="editorial__head editorial__head--sticky stack">
+        <Eyebrow tone="lavender">Zašto na srpskom</Eyebrow>
+        <h2 id="jezik-naslov" class="h2">Ne moraš da prevodiš sebe</h2>
+      </div>
+      <div class="editorial__body prose">
+        <p>Mnogi ljudi u inostranstvu probaju terapiju na jeziku zemlje u kojoj žive i zastanu na istom mestu: sve umeju da objasne, ali ne i da osete. O osećanjima je najlakše govoriti na jeziku na kom smo ih naučili.</p>
+        <p>Na srpskom ne moraš da objašnjavaš ni šta znači „šta će reći ljudi“, ni zašto je teško reći roditeljima da se ne vraćaš. Taj kontekst već delimo, pa vreme ide na ono zbog čega se javljaš.</p>
+        <div class="rh-pair">
+          <p class="rh-pair__old"><span class="rh-sr">Umesto: </span><s>„Moram da uspem ovde, inače je sve bilo uzalud.“</s></p>
+          <p class="rh-pair__new"><span class="rh-sr">Probaj: </span><mark class="rh-hl">Želim</mark> da mi ovde uspe. Ako ne ide po planu, nije sve bilo uzalud.</p>
+        </div>
+        <h3>Kako to izgleda praktično</h3>
+        <ul>
+          <li>Seansa je video poziv od {practice.sessionMinutes} minuta. Link stiže emailom i ništa ne instaliraš.</li>
+          <li>Termin dogovaramo prema tvojoj vremenskoj zoni.</li>
+          <li>Plaćanje iz inostranstva: {practice.payment[practice.payment.length - 1].replace(/\s*\(.*\)$/, '')}.</li>
+          <li>Pristup je isti kao i za ljude u Srbiji. Više o tome na stranici <a href="/kako-radim/">kako radim</a>.</li>
+        </ul>
+        <h3>Sa čim ljudi najčešće dolaze</h3>
+        <ul>
+          {topics.map((t) => <li><a href={`/teme/${t.id}/`}>{t.data.name}</a>. {t.data.hook}</li>)}
+        </ul>
+        <h3>Ako ti je pomoć potrebna odmah</h3>
+        <p>Online terapija nije hitna služba. U zemlji u kojoj živiš pozovi lokalni broj za hitne slučajeve, u EU 112.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" aria-labelledby="faq-naslov">
+    <div class="container editorial">
+      <div class="editorial__head stack">
+        <Eyebrow tone="red">Česta pitanja</Eyebrow>
+        <h2 id="faq-naslov" class="h2">Terapija iz inostranstva</h2>
+        <p class="muted">{person.name}, {person.credentialsShort}. <a class="rh-link" href="/o-meni/">Više o meni</a></p>
+      </div>
+      <div class="editorial__body"><Faq items={faq} /></div>
+    </div>
+  </section>
+
+  <BookingBanner />
+</Base>

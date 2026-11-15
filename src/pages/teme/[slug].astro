@@ -1,0 +1,112 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Asterisk from '../../components/Asterisk.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import Faq from '../../components/Faq.astro';
+import CrisisNote from '../../components/CrisisNote.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+import Sources from '../../components/Sources.astro';
+import BookingBanner from '../../components/BookingBanner.astro';
+import Icon from '../../components/Icon.astro';
+import { person, practice, priceLabel } from '../../data/practice';
+import { getTopics, getQuestions } from '../../lib/content';
+import { serviceNode } from '../../lib/schema';
+import { getSources } from '../../data/izvori';
+
+export async function getStaticPaths() {
+  const topics = await getTopics();
+  return topics.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const crumbs = [
+  { name: 'Početna', href: '/' },
+  { name: 'Teme', href: '/teme/' },
+  { name: d.name, href: `/teme/${entry.id}/` },
+];
+const questions = (await getQuestions()).filter((q) => q.data.topic.id === entry.id);
+const others = (await getTopics()).filter((t) => t.id !== entry.id);
+const toc = headings.filter((h) => h.depth === 2);
+const fmt = (x: Date) => x.toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'long', year: 'numeric' });
+const modified = d.updatedDate ?? d.pubDate;
+const sources = getSources(d.sources);
+---
+<Base
+  title={d.title}
+  description={d.description}
+  crumbs={crumbs}
+  published={d.pubDate}
+  modified={modified}
+  ogType="article"
+  about={[d.name, 'REBT']}
+  schema={[serviceNode()]}
+  faq={d.faq}
+  sources={sources}
+>
+  <PageHead crumbs={crumbs} eyebrow="Tema" tone="lime" title={d.h1}>
+    <p class="rh-pagehead__lead lead" style="color:var(--ink)">{d.answer}</p>
+    <p class="rh-byline">
+      <Asterisk tone="blue" size={12} />
+      <span><strong>{person.name}</strong> · {person.credentialsShort}</span>
+      <span>· Izmenjeno <time datetime={modified.toISOString().slice(0, 10)}>{fmt(modified)}</time></span>
+    </p>
+    <ul class="rh-facts" style="margin-top:0">
+      <li><Asterisk tone="blue" size={12} /><strong>Online</strong>, video poziv</li>
+      <li><Asterisk tone="red" size={12} />Na <strong>srpskom</strong></li>
+      <li><Asterisk tone="blue" size={12} /><strong>{practice.sessionMinutes} minuta</strong>, cena {priceLabel()}</li>
+    </ul>
+  </PageHead>
+
+  <section class="section section--tight" style="padding-top:0">
+    <div class="container editorial">
+      <nav class="editorial__head editorial__head--sticky" aria-label="Na ovoj stranici" style="grid-column: 1 / span 3">
+        <p class="eyebrow muted" style="margin-bottom:var(--space-4)">Na ovoj stranici</p>
+        <ol style="margin:0;padding:0;list-style:none;display:grid;gap:var(--space-2)">
+          {toc.map((h) => <li><a class="rh-link" style="text-decoration-color:var(--line-strong)" href={`#${h.slug}`}>{h.text}</a></li>)}
+          <li><a class="rh-link" style="text-decoration-color:var(--line-strong)" href="#pitanja">Česta pitanja</a></li>
+          {sources.length > 0 && <li><a class="rh-link" style="text-decoration-color:var(--line-strong)" href="#izvori-naslov">Izvori</a></li>}
+        </ol>
+      </nav>
+      <div class="editorial__body" style="grid-column: 5 / span 8">
+        <div class="prose">
+          <Content />
+        </div>
+        <div style="max-width:var(--measure);margin-top:var(--space-8)"><CrisisNote /></div>
+
+        <section id="pitanja" aria-labelledby="pitanja-naslov" style="margin-top:var(--space-16);scroll-margin-top:calc(var(--header-height) + var(--space-6))">
+          <Eyebrow tone="lavender">Česta pitanja</Eyebrow>
+          <h2 id="pitanja-naslov" class="h2" style="margin:var(--space-6) 0 var(--space-8)">{d.name}: šta ljudi pitaju</h2>
+          <Faq items={d.faq} />
+        </section>
+
+        {questions.length > 0 && (
+          <section aria-labelledby="tekstovi-naslov" style="margin-top:var(--space-16)">
+            <h2 id="tekstovi-naslov" class="h3" style="margin-bottom:var(--space-4)">Kratki tekstovi na ovu temu</h2>
+            <ul style="margin:0;padding:0;list-style:none;display:grid;gap:var(--space-3)">
+              {questions.map((q) => <li><a class="rh-link" href={`/pitanja/${q.id}/`}>{q.data.title}</a></li>)}
+            </ul>
+          </section>
+        )}
+
+        <Sources sources={sources} />
+
+        <AuthorBox published={d.pubDate} modified={d.updatedDate} />
+
+        {others.length > 0 && (
+          <nav aria-label="Druge teme" style="margin-top:var(--space-16)">
+            <p class="eyebrow muted" style="margin-bottom:var(--space-4)">Druge teme</p>
+            <ul class="rh-index">
+              {others.map((t) => <li><a href={`/teme/${t.id}/`}>{t.data.name} <Icon name="arrow" size={16} /></a></li>)}
+            </ul>
+          </nav>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <BookingBanner title={`Hoćeš da radimo na tome?`} />
+</Base>

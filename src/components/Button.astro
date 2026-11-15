@@ -1,0 +1,23 @@
+---
+import Asterisk from './Asterisk.astro';
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'link' | 'cream';
+  size?: 'md' | 'sm';
+  star?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, variant = 'primary', size = 'md', star = false, class: className, rel, ...rest } = Astro.props;
+const external = /^https?:\/\//.test(href);
+const relValue = (rel as string | undefined) ?? (external ? 'noopener' : undefined);
+---
+<a
+  href={href}
+  class:list={['rh-btn', `rh-btn--${variant}`, size === 'sm' && 'rh-btn--sm', className]}
+  rel={relValue}
+  {...rest}
+>
+  {star && <span class="rh-btn__star"><Asterisk tone="lime" size={16} weight={2.6} /></span>}
+  <slot />
+</a>

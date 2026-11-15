@@ -1,0 +1,27 @@
+---
+import Asterisk from './Asterisk.astro';
+import Button from './Button.astro';
+import Eyebrow from './Eyebrow.astro';
+import { person, practice } from '../data/practice';
+interface Props { title?: string }
+const { title = 'Prvi korak može da bude mali.' } = Astro.props;
+const intro = practice.introCall.offered
+  ? `Uvodni razgovor traje ${practice.introCall.minutes} minuta${practice.introCall.free ? ' i besplatan je' : ''}. Vidimo da li ti ovakav rad odgovara, bez obaveze da nastaviš.`
+  : 'Na prvom razgovoru vidimo šta te muči i da li ti ovakav rad odgovara, bez obaveze da nastaviš.';
+---
+<section class="section" aria-labelledby="poziv-naslov">
+  <div class="container">
+    <div class="rh-banner">
+      <span class="rh-banner__stars" aria-hidden="true"><Asterisk tone="lime" size={26} /><Asterisk tone="lavender" size={20} /><Asterisk tone="sky" size={26} /><Asterisk tone="red" size={18} /></span>
+      <div>
+        <Eyebrow tone="lime">Prvi korak</Eyebrow>
+        <h2 id="poziv-naslov" class="rh-banner__title h1">{title}</h2>
+      </div>
+      <div class="rh-banner__side">
+        <p>{intro}</p>
+        <Button href="/zakazivanje/" variant="cream" star>Zakaži prvi razgovor</Button>
+        <p class="small">Ili piši na <a class="rh-banner__mail" href={`mailto:${person.email}`}>{person.email}</a>. {practice.responseTime}</p>
+      </div>
+    </div>
+  </div>
+</section>

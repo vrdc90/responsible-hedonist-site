@@ -1,0 +1,26 @@
+---
+import Eyebrow from './Eyebrow.astro';
+import type { Tone } from './Asterisk.astro';
+import type { Crumb } from '../lib/schema';
+interface Props { eyebrow?: string; tone?: Tone; title: string; lead?: string; crumbs?: Crumb[] }
+const { eyebrow, tone = 'blue', title, lead, crumbs = [] } = Astro.props;
+---
+<header class="rh-pagehead">
+  <div class="container">
+    {crumbs.length > 1 && (
+      <nav aria-label="Putanja">
+        <ol class="rh-crumbs">
+          {crumbs.map((c, i) => (
+            <li>{i < crumbs.length - 1 ? <a href={c.href}>{c.name}</a> : <span aria-current="page">{c.name}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <div class="rh-pagehead__inner">
+      {eyebrow && <Eyebrow tone={tone}>{eyebrow}</Eyebrow>}
+      <h1 class="h1">{title}</h1>
+      {lead && <p class="rh-pagehead__lead lead">{lead}</p>}
+      <slot />
+    </div>
+  </div>
+</header>

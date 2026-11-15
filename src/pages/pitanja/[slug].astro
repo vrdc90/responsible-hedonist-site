@@ -1,0 +1,63 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Asterisk from '../../components/Asterisk.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+import BookingBanner from '../../components/BookingBanner.astro';
+import { person, site } from '../../data/practice';
+import { ids } from '../../lib/schema';
+import { getQuestions } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const qs = await getQuestions();
+  return qs.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const topic = await getEntry(d.topic);
+const url = new URL(`/pitanja/${entry.id}/`, site.url).href;
+const crumbs = [
+  { name: 'Početna', href: '/' },
+  { name: 'Pitanja', href: '/pitanja/' },
+  { name: d.title, href: `/pitanja/${entry.id}/` },
+];
+const modified = d.updatedDate ?? d.pubDate;
+const fmt = (x: Date) => x.toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'long', year: 'numeric' });
+const posting = {
+  '@type': 'BlogPosting',
+  '@id': `${url}#clanak`,
+  headline: d.title,
+  description: d.description,
+  inLanguage: site.lang,
+  datePublished: d.pubDate.toISOString().slice(0, 10),
+  dateModified: modified.toISOString().slice(0, 10),
+  author: { '@id': ids.person },
+  publisher: { '@id': ids.person },
+  mainEntityOfPage: { '@id': `${url}#webpage` },
+  image: new URL('/og.png', site.url).href,
+  ...(topic ? { about: { '@type': 'Thing', name: topic.data.name } } : {}),
+};
+---
+<Base title={d.title} description={d.description} crumbs={crumbs} published={d.pubDate} modified={modified} ogType="article" schema={[posting]}>
+  <PageHead crumbs={crumbs} eyebrow="Pitanje" tone="lavender" title={d.title}>
+    <p class="rh-pagehead__lead lead" style="color:var(--ink)">{d.answer}</p>
+    <p class="rh-byline">
+      <Asterisk tone="blue" size={12} />
+      <span><strong>{person.name}</strong> · {person.credentialsShort}</span>
+      <span>· <time datetime={modified.toISOString().slice(0, 10)}>{fmt(modified)}</time></span>
+    </p>
+  </PageHead>
+  <section class="section section--tight" style="padding-top:0">
+    <div class="container">
+      <article class="prose" style="margin-left:auto;margin-right:auto">
+        <Content />
+        {topic && <p>Tema: <a href={`/teme/${topic.id}/`}>{topic.data.name}</a></p>}
+        {d.instagram && <p>Originalni post: <a href={d.instagram} rel="noopener">Instagram</a></p>}
+      </article>
+      <div style="max-width:var(--measure);margin:0 auto"><AuthorBox published={d.pubDate} modified={d.updatedDate} /></div>
+    </div>
+  </section>
+  <BookingBanner />
+</Base>

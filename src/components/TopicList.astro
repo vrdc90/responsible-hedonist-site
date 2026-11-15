@@ -1,0 +1,25 @@
+---
+import Asterisk, { type Tone } from './Asterisk.astro';
+interface Item { quote: string; label: string; href?: string }
+interface Props { items: Item[] }
+const { items } = Astro.props;
+const tones: Tone[] = ['blue', 'red', 'blue', 'red', 'blue', 'red'];
+const big: Tone[] = ['lime', 'lavender', 'sky', 'lime', 'lavender', 'sky'];
+---
+<ul class="rh-topics">
+  {items.map((item, i) => (
+    <li class="rh-topics__item">
+      {item.href ? (
+        <a class="rh-topics__link" href={item.href}>
+          <Asterisk tone={big[i % big.length]} size={22} />
+          <span class="rh-topics__text"><span class="rh-topics__quote">{item.quote}</span><span class="rh-topics__label">{item.label}</span></span>
+        </a>
+      ) : (
+        <div class="rh-topics__link">
+          <Asterisk tone={tones[i % tones.length]} size={16} />
+          <span class="rh-topics__text"><span class="rh-topics__quote">{item.quote}</span><span class="rh-topics__label">{item.label}</span></span>
+        </div>
+      )}
+    </li>
+  ))}
+</ul>

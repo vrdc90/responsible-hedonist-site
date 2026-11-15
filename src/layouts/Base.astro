@@ -1,0 +1,106 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { person, site, pending } from '../data/practice';
+import { graph, personNode, organizationNode, websiteNode, webPageNode, breadcrumbNode, faqNode, type Crumb, type FaqItem } from '../lib/schema';
+import type { Source } from '../data/izvori';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Ako je true, title se ne dopunjuje imenom. */
+  fullTitle?: boolean;
+  crumbs?: Crumb[];
+  schema?: unknown[];
+  pageType?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  published?: Date;
+  modified?: Date;
+  about?: string[];
+  /** @id entiteta o kom je stranica (npr. Person na O meni). */
+  mainEntity?: string;
+  /** Pitanja koja su vidljiva na stranici; dodaje FAQPage u JSON-LD. */
+  faq?: FaqItem[];
+  /** Stručni izvori navedeni na stranici; idu u citation. */
+  sources?: Source[];
+  noindex?: boolean;
+  preloadSerif?: boolean;
+}
+const {
+  title, description, fullTitle = false, crumbs = [], schema = [], pageType,
+  ogType = 'website', published, modified, about, mainEntity, faq = [], sources = [], noindex = false, preloadSerif = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const pageTitle = fullTitle ? title : `${title} | ${person.name}`;
+const ogImage = new URL('/og.png', site.url).href;
+
+const nodes = [
+  personNode(),
+  organizationNode(),
+  websiteNode(),
+  webPageNode({ url: canonical, title: pageTitle, description, type: pageType, crumbs, datePublished: published, dateModified: modified, about, mainEntity, sources }),
+  ...(crumbs.length ? [breadcrumbNode(canonical, crumbs)] : []),
+  ...(faq.length ? [faqNode(canonical, faq)] : []),
+  ...schema,
+];
+const showPending = import.meta.env.DEV && pending.length > 0;
+---
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Izabrana tema se postavlja pre prvog prikaza, da stranica ne trepne. -->
+    <script is:inline>try{var t=localStorage.getItem('rh-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+    <meta name="author" content={person.name} />
+    <meta name="theme-color" content="#f8f7f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#161618" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={`${person.name} · ${site.brand}`} />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Responsible Hedonist: online REBT terapija na srpskom, Jelena Marjanović" />
+    {published && <meta property="article:published_time" content={published.toISOString()} />}
+    {modified && <meta property="article:modified_time" content={modified.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Pitanja: tekstovi o REBT-u" href={new URL('/pitanja/rss.xml', site.url).href} />
+
+    <Font cssVariable="--font-sans" preload={[{ subset: 'latin' }]} />
+    <Font cssVariable="--font-serif" preload={preloadSerif ? [{ subset: 'latin', style: 'normal' }] : false} />
+
+    <script type="application/ld+json" set:html={graph(nodes)} />
+  </head>
+  <body>
+    <a class="rh-skip" href="#sadrzaj">Preskoči na sadržaj</a>
+    <Header />
+    <main id="sadrzaj">
+      <slot />
+    </main>
+    <Footer />
+    {showPending && (
+      <details class="rh-pending">
+        <summary>Čeka potvrdu: {pending.length} stavki (src/data/practice.ts) · vidi se samo u dev režimu</summary>
+        <ul>{pending.map((p) => <li>{p}</li>)}</ul>
+      </details>
+    )}
+  </body>
+</html>

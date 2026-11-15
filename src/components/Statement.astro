@@ -1,0 +1,13 @@
+---
+import Asterisk from './Asterisk.astro';
+interface Props { left: string; right: string; eyebrow?: string; note?: string; tone?: 'lime' | 'lavender' | 'paper' }
+const { left, right, eyebrow, note, tone = 'lime' } = Astro.props;
+---
+<figure class:list={['rh-statement', `rh-statement--${tone}`]}>
+  <span class="rh-stars" aria-hidden="true"><Asterisk tone="blue" size={16} /><Asterisk tone="lavender" size={22} /><Asterisk tone="red" size={16} /></span>
+  {eyebrow && <p class="rh-statement__eyebrow eyebrow">{eyebrow}</p>}
+  <blockquote class="rh-statement__text statement" style="margin:0">
+    <p style="margin:0">{left} <span class="rh-statement__sign" aria-hidden="true">≠</span><span class="rh-sr">nije isto što i</span> {right}</p>
+  </blockquote>
+  {note && <figcaption class="rh-statement__note">{note}</figcaption>}
+</figure>
